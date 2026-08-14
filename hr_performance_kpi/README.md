@@ -1,4 +1,4 @@
-# KPI Management System
+# KPI Management
 
 A comprehensive Key Performance Indicator (KPI) management module for Odoo 19.0 that enables organizations to define metrics, assign them to employees or departments, track periodic results with approval workflows, and monitor performance through a real-time dashboard.
 
@@ -16,7 +16,7 @@ A comprehensive Key Performance Indicator (KPI) management module for Odoo 19.0 
 
 1. Copy the `hr_performance_kpi` folder into your Odoo `custom_addons` directory
 2. Restart Odoo and update the apps list
-3. Install the **KPI Management System** module from the Apps menu
+3. Install the **KPI Management** module from the Apps menu
 
 ### Requirements
 - Odoo 19.0
