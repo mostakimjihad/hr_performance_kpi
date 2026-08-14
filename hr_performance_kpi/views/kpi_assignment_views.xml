@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- KPI Assignment Tree View -->
+        <record id="kpi_assignment_view_tree" model="ir.ui.view">
+            <field name="name">kpi.assignment.tree</field>
+            <field name="model">kpi.assignment</field>
+            <field name="arch" type="xml">
+                <list string="KPI Assignments"
+                      multi_edit="1"
+                      sample="1"
+                      decoration-success="state == 'active'"
+                      decoration-warning="state == 'draft'"
+                      decoration-danger="state == 'cancelled'"
+                      decoration-muted="state == 'expired'">
+                    <field name="template_id"/>
+                    <field name="employee_id" optional="show"/>
+                    <field name="department_id" optional="show"/>
+                    <field name="valid_from"/>
+                    <field name="valid_to" optional="hide"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'active'"
+                           decoration-warning="state == 'draft'"
+                           decoration-danger="state == 'cancelled'"
+                           decoration-muted="state == 'expired'"/>
+                    <field name="assigned_by" optional="hide"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- KPI Assignment Form View -->
+        <record id="kpi_assignment_view_form" model="ir.ui.view">
+            <field name="name">kpi.assignment.form</field>
+            <field name="model">kpi.assignment</field>
+            <field name="arch" type="xml">
+                <form string="KPI Assignment">
+                    <header>
+                        <button name="action_activate"
+                                string="Activate"
+                                type="object"
+                                class="btn-primary"
+                                invisible="state != 'draft'"
+                                groups="hr_performance_kpi.group_kpi_manager"/>
+                        <button name="action_expire"
+                                string="Expire"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="state != 'active'"
+                                groups="hr_performance_kpi.group_kpi_manager"/>
+                        <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="state not in ('draft', 'active')"
+                                groups="hr_performance_kpi.group_kpi_manager"/>
+                        <button name="action_set_draft"
+                                string="Reset to Draft"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="state not in ('cancelled', 'expired')"
+                                groups="hr_performance_kpi.group_kpi_manager"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,active,expired,cancelled"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" invisible="not id">
+                            <button class="oe_stat_button"
+                                    name="action_view_results"
+                                    type="object"
+                                    icon="fa-list">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="result_count"/>
+                                    </span>
+                                    <span class="o_stat_text">Results</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="template_id" class="oe_edit_only"/>
+                            <h1>
+                                <field name="template_id"
+                                       placeholder="Select KPI Template"
+                                       options="{'no_create': True}"/>
+                            </h1>
+                        </div>
+                        <div class="alert alert-info mb-3" role="alert">
+                            <i class="fa fa-info-circle me-2"/>
+                            Assign to either an individual employee or an entire department.
+                            Department assignments automatically apply to all department members.
+                        </div>
+                        <group col="12">
+                            <group colspan="6" string="Assignment Target">
+                                <field name="employee_id"
+                                       widget="many2one_avatar_employee"
+                                       placeholder="Leave empty for department assignment"/>
+                                <field name="department_id"
+                                       options="{'no_create': True}"
+                                       placeholder="Leave empty for individual assignment"/>
+                            </group>
+                            <group colspan="6" string="Validity">
+                                <field name="valid_from"/>
+                                <field name="valid_to"/>
+                                <field name="assigned_by" readonly="1"/>
+                                <field name="company_id" groups="base.group_multi_company"
+                                       options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="KPI Results" name="results_page" invisible="not id">
+                                <field name="result_ids"
+                                       nolabel="1"
+                                       colspan="2"
+                                       readonly="state in ('cancelled', 'expired')">
+                                    <list string="Results"
+                                          decoration-success="rag_status == 'green'"
+                                          decoration-warning="rag_status == 'amber'"
+                                          decoration-danger="rag_status == 'red'">
+                                        <field name="employee_id" readonly="1"/>
+                                        <field name="period_name" string="Period"/>
+                                        <field name="actual_value" readonly="1"/>
+                                        <field name="score" widget="progressbar" readonly="1"/>
+                                        <field name="rag_status" widget="badge"
+                                               decoration-success="rag_status == 'green'"
+                                               decoration-warning="rag_status == 'amber'"
+                                               decoration-danger="rag_status == 'red'"
+                                               readonly="1"/>
+                                        <field name="state" widget="badge"
+                                               decoration-success="state == 'approved'"
+                                               decoration-info="state == 'submitted'"
+                                               decoration-warning="state == 'returned'"
+                                               readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Notes" name="notes_page">
+                                <field name="notes"
+                                       nolabel="1"
+                                       placeholder="Internal notes about this assignment…"
+                                       colspan="2"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- KPI Assignment Search View -->
+        <record id="kpi_assignment_view_search" model="ir.ui.view">
+            <field name="name">kpi.assignment.search</field>
+            <field name="model">kpi.assignment</field>
+            <field name="arch" type="xml">
+                <search string="KPI Assignments">
+                    <field name="template_id"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <separator/>
+                    <filter string="Active" name="filter_active"
+                            domain="[('state', '=', 'active')]"/>
+                    <filter string="Draft" name="filter_draft"
+                            domain="[('state', '=', 'draft')]"/>
+                    <filter string="Expired" name="filter_expired"
+                            domain="[('state', '=', 'expired')]"/>
+                    <filter string="Cancelled" name="filter_cancelled"
+                            domain="[('state', '=', 'cancelled')]"/>
+                    <group>
+                        <filter name="group_template" string="Template"
+                                domain="[]" context="{'group_by': 'template_id'}"/>
+                        <filter name="group_department" string="Department"
+                                domain="[]" context="{'group_by': 'department_id'}"/>
+                        <filter name="group_state" string="Status"
+                                domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

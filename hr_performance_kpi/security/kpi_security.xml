@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- KPI Privilege -->
+    <record id="kpi_privilege" model="res.groups.privilege">
+        <field name="name">KPI</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+    </record>
+
+    <!-- KPI User Group -->
+    <record id="group_kpi_user" model="res.groups">
+        <field name="name">KPI User</field>
+        <field name="privilege_id" ref="kpi_privilege"/>
+        <field name="sequence">10</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">The user will be able to view KPIs and submit their own results.</field>
+    </record>
+
+    <!-- KPI Manager Group -->
+    <record id="group_kpi_manager" model="res.groups">
+        <field name="name">KPI Manager</field>
+        <field name="privilege_id" ref="kpi_privilege"/>
+        <field name="sequence">20</field>
+        <field name="implied_ids" eval="[(4, ref('group_kpi_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">The manager can create and manage KPI templates, assignments, and approve results.</field>
+    </record>
+
+    <!-- Record Rules (noupdate=1 means not reset on module update) -->
+    <data noupdate="1">
+        <!-- Multi-company rules -->
+        <record id="kpi_category_comp_rule" model="ir.rule">
+            <field name="name">KPI Category multi-company rule</field>
+            <field name="model_id" ref="model_kpi_category"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="kpi_template_comp_rule" model="ir.rule">
+            <field name="name">KPI Template multi-company rule</field>
+            <field name="model_id" ref="model_kpi_template"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="kpi_assignment_comp_rule" model="ir.rule">
+            <field name="name">KPI Assignment multi-company rule</field>
+            <field name="model_id" ref="model_kpi_assignment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="kpi_result_comp_rule" model="ir.rule">
+            <field name="name">KPI Result multi-company rule</field>
+            <field name="model_id" ref="model_kpi_result"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- KPI Result: users see their own results or results of their subordinates -->
+        <record id="kpi_result_employee_rule" model="ir.rule">
+            <field name="name">KPI Result: own results or subordinates</field>
+            <field name="model_id" ref="model_kpi_result"/>
+            <field name="domain_force">[
+                '|', '|',
+                ('employee_id.user_id', '=', user.id),
+                ('employee_id.parent_id.user_id', '=', user.id),
+                ('employee_id.department_id.manager_id.user_id', '=', user.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_kpi_user'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- KPI Dashboard Form View (rendered as a full dashboard) -->
+        <record id="kpi_dashboard_view_form" model="ir.ui.view">
+            <field name="name">kpi.dashboard.form</field>
+            <field name="model">kpi.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="KPI Performance Dashboard" create="false" edit="false" delete="false">
+                    <sheet>
+                        <!-- Hidden fields for data -->
+                        <field name="total_results" invisible="1"/>
+                        <field name="on_track" invisible="1"/>
+                        <field name="at_risk" invisible="1"/>
+                        <field name="off_track" invisible="1"/>
+                        <field name="avg_score" invisible="1"/>
+                        <field name="green_pct" invisible="1"/>
+                        <field name="amber_pct" invisible="1"/>
+                        <field name="red_pct" invisible="1"/>
+                        <field name="department_data" invisible="1"/>
+                        <field name="employee_rankings" invisible="1"/>
+
+                        <!-- Page Header -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h2 class="mb-1">
+                                    <i class="fa fa-tachometer me-2 text-primary"/>
+                                    KPI Performance Dashboard
+                                </h2>
+                                <p class="text-muted mb-0">
+                                    Real-time overview of all KPI metrics and employee performance
+                                </p>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary"
+                                        type="action"
+                                        name="%(hr_performance_kpi.action_kpi_result)d">
+                                    <i class="fa fa-list me-1"/> View All Results
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Summary Cards Row -->
+                        <div class="row mb-4">
+                            <!-- Total KPIs Card -->
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card text-bg-primary h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                                    Total KPIs
+                                                </h6>
+                                                <h2 class="card-text mb-0 fs-1 fw-bold">
+                                                    <field name="total_results" nolabel="1"/>
+                                                </h2>
+                                            </div>
+                                            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                                                <i class="fa fa-bar-chart fa-2x"/>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 small opacity-75">
+                                            Active KPI measurements
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- On Track (Green) Card -->
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card text-bg-success h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                                    On Track
+                                                </h6>
+                                                <h2 class="card-text mb-0 fs-1 fw-bold">
+                                                    <field name="on_track" nolabel="1"/>
+                                                </h2>
+                                            </div>
+                                            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                                                <i class="fa fa-check-circle fa-2x"/>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 small opacity-75">
+                                            <field name="green_pct" nolabel="1"/> % of total
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- At Risk (Amber) Card -->
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card text-bg-warning h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                                    At Risk
+                                                </h6>
+                                                <h2 class="card-text mb-0 fs-1 fw-bold">
+                                                    <field name="at_risk" nolabel="1"/>
+                                                </h2>
+                                            </div>
+                                            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                                                <i class="fa fa-exclamation-triangle fa-2x"/>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 small opacity-75">
+                                            <field name="amber_pct" nolabel="1"/> % of total
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Off Track (Red) Card -->
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card text-bg-danger h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                                    Off Track
+                                                </h6>
+                                                <h2 class="card-text mb-0 fs-1 fw-bold">
+                                                    <field name="off_track" nolabel="1"/>
+                                                </h2>
+                                            </div>
+                                            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                                                <i class="fa fa-times-circle fa-2x"/>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 small opacity-75">
+                                            <field name="red_pct" nolabel="1"/> % of total
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RAG Distribution & Average Score Row -->
+                        <div class="row mb-4">
+                            <!-- RAG Distribution -->
+                            <div class="col-lg-8 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <strong>
+                                            <i class="fa fa-pie-chart me-2"/>
+                                            RAG Status Distribution
+                                        </strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span>
+                                                    <span class="badge text-bg-success me-1">Green</span>
+                                                    On Track
+                                                </span>
+                                                <span class="fw-bold">
+                                                    <field name="green_pct" nolabel="1"/> %
+                                                </span>
+                                            </div>
+                                            <field name="green_pct" widget="progressbar" nolabel="1"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span>
+                                                    <span class="badge text-bg-warning me-1">Amber</span>
+                                                    At Risk
+                                                </span>
+                                                <span class="fw-bold">
+                                                    <field name="amber_pct" nolabel="1"/> %
+                                                </span>
+                                            </div>
+                                            <field name="amber_pct" widget="progressbar" nolabel="1"/>
+                                        </div>
+                                        <div class="mb-0">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span>
+                                                    <span class="badge text-bg-danger me-1">Red</span>
+                                                    Off Track
+                                                </span>
+                                                <span class="fw-bold">
+                                                    <field name="red_pct" nolabel="1"/> %
+                                                </span>
+                                            </div>
+                                            <field name="red_pct" widget="progressbar" nolabel="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Average Score Gauge -->
+                            <div class="col-lg-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <strong>
+                                            <i class="fa fa-bullseye me-2"/>
+                                            Overall Average Score
+                                        </strong>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="display-1 fw-bold mb-2">
+                                            <field name="avg_score" nolabel="1"/> %
+                                        </div>
+                                        <field name="avg_score" widget="progressbar" nolabel="1"/>
+                                        <p class="text-muted small mb-0 mt-3">
+                                            <span invisible="avg_score &lt; 80" class="text-success fw-bold">
+                                                <i class="fa fa-check-circle me-1"/>
+                                                Great performance!
+                                            </span>
+                                            <span invisible="avg_score &lt; 50 or avg_score >= 80" class="text-warning fw-bold">
+                                                <i class="fa fa-exclamation-circle me-1"/>
+                                                Needs attention
+                                            </span>
+                                            <span invisible="avg_score >= 50" class="text-danger fw-bold">
+                                                <i class="fa fa-times-circle me-1"/>
+                                                Critical — immediate action needed
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Links Row -->
+                        <div class="row mb-4">
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <a href="#" class="text-decoration-none"
+                                   name="%(hr_performance_kpi.action_kpi_template)d"
+                                   type="action"
+                                   context="{}">
+                                    <div class="card border-primary border-2 h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-cogs fa-3x text-primary mb-2"/>
+                                            <h6 class="card-title">KPI Templates</h6>
+                                            <p class="card-text small text-muted">
+                                                Define and configure KPI metrics
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <a href="#" class="text-decoration-none"
+                                   name="%(hr_performance_kpi.action_kpi_assignment)d"
+                                   type="action"
+                                   context="{}">
+                                    <div class="card border-success border-2 h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-users fa-3x text-success mb-2"/>
+                                            <h6 class="card-title">Assignments</h6>
+                                            <p class="card-text small text-muted">
+                                                Assign KPIs to employees/departments
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <a href="#" class="text-decoration-none"
+                                   name="%(hr_performance_kpi.action_kpi_result)d"
+                                   type="action"
+                                   context="{'search_default_filter_my': 1}">
+                                    <div class="card border-warning border-2 h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-check-square-o fa-3x text-warning mb-2"/>
+                                            <h6 class="card-title">My Results</h6>
+                                            <p class="card-text small text-muted">
+                                                Submit and review your KPI results
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <a href="#" class="text-decoration-none"
+                                   name="%(hr_performance_kpi.action_kpi_category)d"
+                                   type="action"
+                                   context="{}">
+                                    <div class="card border-info border-2 h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-folder-open fa-3x text-info mb-2"/>
+                                            <h6 class="card-title">Categories</h6>
+                                            <p class="card-text small text-muted">
+                                                Organize KPIs by category
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Refresh info -->
+                        <div class="alert alert-light border text-center mb-0">
+                            <i class="fa fa-refresh me-2 text-muted"/>
+                            <span class="text-muted small">
+                                Dashboard data is refreshed automatically. Click
+                                <strong>Refresh</strong> or use the
+                                <strong>KPI Results</strong> menu for detailed views and analysis.
+                            </span>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

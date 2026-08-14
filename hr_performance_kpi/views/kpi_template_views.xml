@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- KPI Template Tree View -->
+        <record id="kpi_template_view_tree" model="ir.ui.view">
+            <field name="name">kpi.template.tree</field>
+            <field name="model">kpi.template</field>
+            <field name="arch" type="xml">
+                <list string="KPI Templates"
+                      multi_edit="1"
+                      sample="1"
+                      decoration-muted="not active">
+                    <field name="sequence" widget="handle" optional="hide"/>
+                    <field name="name"/>
+                    <field name="code" optional="hide"/>
+                    <field name="category_id" optional="show"/>
+                    <field name="kpi_type" optional="show"/>
+                    <field name="direction" optional="hide"/>
+                    <field name="periodicity" optional="show"/>
+                    <field name="weight" optional="hide"/>
+                    <field name="target_value" optional="hide"/>
+                    <field name="calculation_method" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                    <field name="active" column_invisible="True"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- KPI Template Form View -->
+        <record id="kpi_template_view_form" model="ir.ui.view">
+            <field name="name">kpi.template.form</field>
+            <field name="model">kpi.template</field>
+            <field name="arch" type="xml">
+                <form string="KPI Template">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" invisible="not id">
+                            <button class="oe_stat_button"
+                                    name="action_view_assignments"
+                                    type="object"
+                                    icon="fa-users">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="assignment_count"/>
+                                    </span>
+                                    <span class="o_stat_text">Assignments</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button"
+                                    name="action_view_results"
+                                    type="object"
+                                    icon="fa-list">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="result_count"/>
+                                    </span>
+                                    <span class="o_stat_text">Results</span>
+                                </div>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                        <field name="active" invisible="1"/>
+
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Attendance Regularity"/>
+                            </h1>
+                            <h3>
+                                <field name="code" placeholder="e.g. ATT_REG"/>
+                            </h3>
+                        </div>
+
+                        <notebook>
+                            <!-- Definition Tab -->
+                            <page name="definition" string="Definition">
+                                <group col="12">
+                                    <group colspan="6" string="Basic Information">
+                                        <field name="category_id"/>
+                                        <field name="kpi_type" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="unit"/>
+                                        <field name="periodicity" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="weight"/>
+                                        <field name="sequence"/>
+                                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    </group>
+                                    <group colspan="6" string="Measurement Configuration">
+                                        <field name="direction" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="target_value"/>
+                                        <field name="min_value"/>
+                                        <field name="max_value"/>
+                                    </group>
+                                </group>
+                                <group string="Description" name="description_group">
+                                    <field name="description"
+                                           nolabel="1"
+                                           colspan="2"
+                                           placeholder="Describe how this KPI is measured and what it tracks…"/>
+                                </group>
+                            </page>
+
+                            <!-- RAG Configuration Tab -->
+                            <page name="rag" string="RAG Thresholds">
+                                <div class="alert alert-info mb-3" role="alert">
+                                    <i class="fa fa-info-circle me-2"/>
+                                    RAG (Red/Amber/Green) thresholds determine the status color
+                                    based on the computed score percentage. Green threshold must be
+                                    greater than Amber threshold.
+                                </div>
+                                <group col="12" string="Score Threshold Configuration">
+                                    <group colspan="6" string="Green (On Track)">
+                                        <field name="green_threshold"/>
+                                        <div class="text-muted small mt-1">
+                                            Score ≥ <span class="fw-bold text-success">Green Threshold</span>
+                                            → Status is Green
+                                        </div>
+                                    </group>
+                                    <group colspan="6" string="Amber (At Risk)">
+                                        <field name="amber_threshold"/>
+                                        <div class="text-muted small mt-1">
+                                            Score between
+                                            <span class="fw-bold text-warning">Amber</span> and
+                                            <span class="fw-bold text-success">Green</span>
+                                            → Status is Amber
+                                        </div>
+                                    </group>
+                                </group>
+                                <div class="alert alert-danger mt-2" role="alert">
+                                    Score &lt; Amber Threshold → Status is <span class="fw-bold">Red</span> (Off Track)
+                                </div>
+                            </page>
+
+                            <!-- Calculation Method Tab -->
+                            <page name="calculation" string="Calculation">
+                                <group string="Method Configuration">
+                                    <field name="calculation_method" widget="radio" options="{'horizontal': true}"/>
+
+                                    <!-- Manual Entry -->
+                                    <div invisible="calculation_method != 'manual'"
+                                         class="alert alert-info mt-2" role="alert">
+                                        <i class="fa fa-info-circle me-2"/>
+                                        Values will be entered manually by the employee or manager
+                                        during the KPI result submission process.
+                                    </div>
+
+                                    <!-- ORM Query -->
+                                    <group string="ORM Query Configuration"
+                                           invisible="calculation_method != 'orm_query'">
+                                        <field name="model_id"
+                                               domain="[('transient', '=', False)]"
+                                               placeholder="e.g. account.move.line"/>
+                                        <field name="target_field_id"
+                                               placeholder="e.g. price_subtotal"/>
+                                        <field name="aggregate"/>
+                                        <field name="domain_filter" colspan="2"/>
+                                        <div class="text-muted small">
+                                            Example domain: <code>[('state', '=', 'posted')]</code>
+                                        </div>
+                                    </group>
+
+                                    <!-- Formula -->
+                                    <group string="Formula Configuration"
+                                           invisible="calculation_method != 'formula'">
+                                        <field name="expression"
+                                               nolabel="1"
+                                               colspan="2"
+                                               placeholder="e.g. value * 1.1"/>
+                                        <div class="text-muted small mt-2" colspan="2">
+                                            Use <code>value</code> for the current actual value.
+                                            <strong>Expressions are sandboxed</strong> — only arithmetic,
+                                            comparisons, and a small set of helper names are available.
+                                            Examples:
+                                            <ul class="mb-0">
+                                                <li><code>value * 1.1</code> — increase by 10%</li>
+                                                <li><code>previous_value + (value - previous_value)</code> — delta vs. previous period</li>
+                                            </ul>
+                                        </div>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <!-- Assignments Tab -->
+                            <page name="assignments" string="Assignments" invisible="not id">
+                                <field name="assignment_ids"
+                                       nolabel="1"
+                                       colspan="2"
+                                       context="{'default_template_id': id}">
+                                    <list string="Assignments"
+                                          decoration-success="state == 'active'"
+                                          decoration-warning="state == 'draft'"
+                                          decoration-danger="state == 'cancelled'"
+                                          decoration-muted="state == 'expired'">
+                                        <field name="employee_id"/>
+                                        <field name="department_id"/>
+                                        <field name="valid_from"/>
+                                        <field name="valid_to"/>
+                                        <field name="state" widget="badge"
+                                               decoration-success="state == 'active'"
+                                               decoration-warning="state == 'draft'"
+                                               decoration-danger="state == 'cancelled'"
+                                               decoration-muted="state == 'expired'"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- KPI Template Search View -->
+        <record id="kpi_template_view_search" model="ir.ui.view">
+            <field name="name">kpi.template.search</field>
+            <field name="model">kpi.template</field>
+            <field name="arch" type="xml">
+                <search string="KPI Templates">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="category_id"/>
+                    <separator/>
+                    <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="Quantitative" name="filter_quantitative"
+                            domain="[('kpi_type', '=', 'quantitative')]"/>
+                    <filter string="Qualitative" name="filter_qualitative"
+                            domain="[('kpi_type', '=', 'qualitative')]"/>
+                    <separator/>
+                    <filter string="Manual Entry" name="filter_manual"
+                            domain="[('calculation_method', '=', 'manual')]"/>
+                    <filter string="Automated" name="filter_orm"
+                            domain="[('calculation_method', '=', 'orm_query')]"/>
+                    <filter string="Formula" name="filter_formula"
+                            domain="[('calculation_method', '=', 'formula')]"/>
+                    <separator/>
+                    <filter string="Monthly" name="filter_monthly"
+                            domain="[('periodicity', '=', 'monthly')]"/>
+                    <filter string="Quarterly" name="filter_quarterly"
+                            domain="[('periodicity', '=', 'quarterly')]"/>
+                    <filter string="Yearly" name="filter_yearly"
+                            domain="[('periodicity', '=', 'yearly')]"/>
+                    <group>
+                        <filter name="group_category" string="Category"
+                                domain="[]" context="{'group_by': 'category_id'}"/>
+                        <filter name="group_periodicity" string="Periodicity"
+                                domain="[]" context="{'group_by': 'periodicity'}"/>
+                        <filter name="group_calculation" string="Calculation Method"
+                                domain="[]" context="{'group_by': 'calculation_method'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- KPI Template Kanban View -->
+        <record id="kpi_template_view_kanban" model="ir.ui.view">
+            <field name="name">kpi.template.kanban</field>
+            <field name="model">kpi.template</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kpi_template_kanban" sample="1">
+                    <field name="category_id"/>
+                    <field name="kpi_type"/>
+                    <field name="direction"/>
+                    <field name="periodicity"/>
+                    <field name="weight"/>
+                    <field name="target_value"/>
+                    <field name="calculation_method"/>
+                    <field name="green_threshold"/>
+                    <field name="amber_threshold"/>
+                    <field name="active"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="o_kanban_card_content">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <strong class="fs-5">
+                                        <field name="name"/>
+                                    </strong>
+                                    <t t-if="!record.active.raw_value">
+                                        <span class="badge text-bg-secondary">Archived</span>
+                                    </t>
+                                </div>
+                                <div class="mb-2">
+                                    <span t-attf-class="badge text-bg-#{record.kpi_type.raw_value == 'quantitative' ? 'primary' : 'info'} me-1">
+                                        <field name="kpi_type"/>
+                                    </span>
+                                    <span class="badge text-bg-secondary me-1">
+                                        <field name="periodicity"/>
+                                    </span>
+                                    <span class="badge text-bg-secondary">
+                                        <field name="calculation_method"/>
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <span class="text-muted small">Weight:</span>
+                                    <span class="fw-bold">
+                                        <field name="weight"/>
+                                    </span>
+                                    <span class="text-muted small ms-2">Target:</span>
+                                    <span class="fw-bold">
+                                        <field name="target_value"/>
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1 small">
+                                    <span class="badge text-bg-success rounded-pill"
+                                          style="width: 12px; height: 12px; display: inline-block;"/>
+                                    <span>≥ <field name="green_threshold"/>%</span>
+                                    <span class="badge text-bg-warning rounded-pill ms-2"
+                                          style="width: 12px; height: 12px; display: inline-block;"/>
+                                    <span>≥ <field name="amber_threshold"/>%</span>
+                                </div>
+                                <div class="mt-2">
+                                    <field name="category_id"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    </data>
+</odoo>

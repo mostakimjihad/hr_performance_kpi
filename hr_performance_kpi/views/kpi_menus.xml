@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ==================== ACTIONS ==================== -->
+
+        <!-- KPI Dashboard Action -->
+        <record id="action_kpi_dashboard" model="ir.actions.act_window">
+            <field name="name">KPI Dashboard</field>
+            <field name="res_model">kpi.dashboard</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+        <!-- KPI Categories Action -->
+        <record id="action_kpi_category" model="ir.actions.act_window">
+            <field name="name">KPI Categories</field>
+            <field name="res_model">kpi.category</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Organize your KPIs into categories
+                </p>
+                <p>
+                    Create categories like Financial, HR, Sales, or Operations
+                    to group related KPI metrics together.
+                </p>
+            </field>
+        </record>
+
+        <!-- KPI Templates Action -->
+        <record id="action_kpi_template" model="ir.actions.act_window">
+            <field name="name">KPI Templates</field>
+            <field name="res_model">kpi.template</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="search_view_id" ref="kpi_template_view_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Define your KPI metrics
+                </p>
+                <p>
+                    Create KPI templates to define how performance is measured.
+                    Configure targets, RAG thresholds, and calculation methods.
+                </p>
+            </field>
+        </record>
+
+        <!-- KPI Assignments Action -->
+        <record id="action_kpi_assignment" model="ir.actions.act_window">
+            <field name="name">KPI Assignments</field>
+            <field name="res_model">kpi.assignment</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="kpi_assignment_view_search"/>
+            <field name="context">{'search_default_filter_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Assign KPIs to your team
+                </p>
+                <p>
+                    Assign KPI templates to individual employees or entire departments.
+                    Department assignments automatically apply to all members.
+                </p>
+            </field>
+        </record>
+
+        <!-- KPI Results Action -->
+        <record id="action_kpi_result" model="ir.actions.act_window">
+            <field name="name">KPI Results</field>
+            <field name="res_model">kpi.result</field>
+            <field name="view_mode">list,form,pivot,graph</field>
+            <field name="search_view_id" ref="kpi_result_view_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Track KPI performance
+                </p>
+                <p>
+                    View, submit, and review KPI results. Use the pivot and graph views
+                    for detailed performance analysis.
+                </p>
+            </field>
+        </record>
+
+        <!-- ==================== MENUS ==================== -->
+
+        <!-- Top-level KPI Management Menu -->
+        <menuitem id="menu_kpi_root"
+                  name="KPI Management"
+                  web_icon="hr_performance_kpi,static/description/icon.svg"
+                  sequence="190"
+                  groups="hr_performance_kpi.group_kpi_user"/>
+
+        <!-- Dashboard (first item) -->
+        <menuitem id="menu_kpi_dashboard"
+                  name="Dashboard"
+                  action="action_kpi_dashboard"
+                  parent="menu_kpi_root"
+                  sequence="10"
+                  groups="hr_performance_kpi.group_kpi_user"/>
+
+        <!-- KPI Results -->
+        <menuitem id="menu_kpi_results"
+                  name="KPI Results"
+                  action="action_kpi_result"
+                  parent="menu_kpi_root"
+                  sequence="20"
+                  groups="hr_performance_kpi.group_kpi_user"/>
+
+        <!-- KPI Templates -->
+        <menuitem id="menu_kpi_templates"
+                  name="KPI Templates"
+                  action="action_kpi_template"
+                  parent="menu_kpi_root"
+                  sequence="30"
+                  groups="hr_performance_kpi.group_kpi_user"/>
+
+        <!-- Assignments -->
+        <menuitem id="menu_kpi_assignments"
+                  name="Assignments"
+                  action="action_kpi_assignment"
+                  parent="menu_kpi_root"
+                  sequence="40"
+                  groups="hr_performance_kpi.group_kpi_user"/>
+
+        <!-- Configuration Menu (Manager only) -->
+        <menuitem id="menu_kpi_configuration"
+                  name="Configuration"
+                  parent="menu_kpi_root"
+                  sequence="100"
+                  groups="hr_performance_kpi.group_kpi_manager"/>
+
+        <menuitem id="menu_kpi_config_categories"
+                  name="KPI Categories"
+                  action="action_kpi_category"
+                  parent="menu_kpi_configuration"
+                  sequence="10"
+                  groups="hr_performance_kpi.group_kpi_manager"/>
+
+        <menuitem id="menu_kpi_config_templates"
+                  name="KPI Templates"
+                  action="action_kpi_template"
+                  parent="menu_kpi_configuration"
+                  sequence="20"
+                  groups="hr_performance_kpi.group_kpi_manager"/>
+    </data>
+</odoo>

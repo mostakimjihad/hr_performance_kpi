@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kpi_category_user,kpi.category.user,model_kpi_category,group_kpi_user,1,0,0,0
+access_kpi_category_manager,kpi.category.manager,model_kpi_category,group_kpi_manager,1,1,1,1
+access_kpi_template_user,kpi.template.user,model_kpi_template,group_kpi_user,1,0,0,0
+access_kpi_template_manager,kpi.template.manager,model_kpi_template,group_kpi_manager,1,1,1,1
+access_kpi_assignment_user,kpi.assignment.user,model_kpi_assignment,group_kpi_user,1,0,0,0
+access_kpi_assignment_manager,kpi.assignment.manager,model_kpi_assignment,group_kpi_manager,1,1,1,1
+access_kpi_result_user,kpi.result.user,model_kpi_result,group_kpi_user,1,1,1,0
+access_kpi_result_manager,kpi.result.manager,model_kpi_result,group_kpi_manager,1,1,1,1
+access_kpi_dashboard,kpi.dashboard.user,model_kpi_dashboard,group_kpi_user,1,1,1,0
+access_kpi_dashboard_manager,kpi.dashboard.manager,model_kpi_dashboard,group_kpi_manager,1,1,1,1

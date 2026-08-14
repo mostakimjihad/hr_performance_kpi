@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Cron: Generate KPI Results for Active Assignments -->
+        <record id="ir_cron_kpi_generate_results" model="ir.cron">
+            <field name="name">KPI Management: Generate Periodic Results</field>
+            <field name="model_id" ref="model_kpi_assignment"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_generate_results()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+
+        <!-- Cron: Auto-calculate Automated KPI Results -->
+        <record id="ir_cron_kpi_calculate_scores" model="ir.cron">
+            <field name="name">KPI Management: Calculate Automated Results</field>
+            <field name="model_id" ref="model_kpi_result"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_calculate_automated()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+    </data>
+</odoo>

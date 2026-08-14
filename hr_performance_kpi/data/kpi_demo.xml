@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ==================== KPI CATEGORIES ==================== -->
+
+        <record id="kpi_category_financial" model="kpi.category">
+            <field name="name">Financial</field>
+            <field name="description">Financial performance indicators including revenue, profit, and cost metrics.</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="kpi_category_sales" model="kpi.category">
+            <field name="name">Sales</field>
+            <field name="description">Sales performance indicators including pipeline, conversion, and revenue metrics.</field>
+            <field name="color">3</field>
+        </record>
+
+        <record id="kpi_category_hr" model="kpi.category">
+            <field name="name">Human Resources</field>
+            <field name="description">HR-related KPIs including attendance, engagement, and retention.</field>
+            <field name="color">7</field>
+        </record>
+
+        <record id="kpi_category_operations" model="kpi.category">
+            <field name="name">Operations</field>
+            <field name="description">Operational KPIs including productivity, quality, and efficiency metrics.</field>
+            <field name="color">5</field>
+        </record>
+
+        <!-- ==================== KPI TEMPLATES ==================== -->
+
+        <!-- HR: Attendance Regularity -->
+        <record id="kpi_template_attendance" model="kpi.template">
+            <field name="name">Attendance Regularity</field>
+            <field name="code">ATT_REG</field>
+            <field name="category_id" ref="kpi_category_hr"/>
+            <field name="kpi_type">quantitative</field>
+            <field name="unit">%</field>
+            <field name="direction">maximize</field>
+            <field name="periodicity">monthly</field>
+            <field name="target_value">95.0</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">100.0</field>
+            <field name="green_threshold">90.0</field>
+            <field name="amber_threshold">70.0</field>
+            <field name="weight">3.0</field>
+            <field name="calculation_method">manual</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Sales: Sales Invoice Amount -->
+        <record id="kpi_template_sales_invoice" model="kpi.template">
+            <field name="name">Sales Invoice Amount</field>
+            <field name="code">SALES_INV</field>
+            <field name="category_id" ref="kpi_category_sales"/>
+            <field name="kpi_type">quantitative</field>
+            <field name="unit">Units</field>
+            <field name="direction">maximize</field>
+            <field name="periodicity">monthly</field>
+            <field name="target_value">50000.0</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">100000.0</field>
+            <field name="green_threshold">80.0</field>
+            <field name="amber_threshold">50.0</field>
+            <field name="weight">5.0</field>
+            <field name="calculation_method">manual</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Financial: Revenue Growth Rate -->
+        <record id="kpi_template_revenue_growth" model="kpi.template">
+            <field name="name">Revenue Growth Rate</field>
+            <field name="code">REV_GROWTH</field>
+            <field name="category_id" ref="kpi_category_financial"/>
+            <field name="kpi_type">quantitative</field>
+            <field name="unit">%</field>
+            <field name="direction">maximize</field>
+            <field name="periodicity">quarterly</field>
+            <field name="target_value">15.0</field>
+            <field name="min_value">-10.0</field>
+            <field name="max_value">50.0</field>
+            <field name="green_threshold">85.0</field>
+            <field name="amber_threshold">60.0</field>
+            <field name="weight">5.0</field>
+            <field name="calculation_method">manual</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Operations: Task Completion Rate -->
+        <record id="kpi_template_task_completion" model="kpi.template">
+            <field name="name">Task Completion Rate</field>
+            <field name="code">TASK_COMP</field>
+            <field name="category_id" ref="kpi_category_operations"/>
+            <field name="kpi_type">quantitative</field>
+            <field name="unit">%</field>
+            <field name="direction">maximize</field>
+            <field name="periodicity">monthly</field>
+            <field name="target_value">90.0</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">100.0</field>
+            <field name="green_threshold">85.0</field>
+            <field name="amber_threshold">60.0</field>
+            <field name="weight">3.0</field>
+            <field name="calculation_method">manual</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <!-- HR: Employee Satisfaction -->
+        <record id="kpi_template_satisfaction" model="kpi.template">
+            <field name="name">Employee Satisfaction Score</field>
+            <field name="code">EMP_SAT</field>
+            <field name="category_id" ref="kpi_category_hr"/>
+            <field name="kpi_type">qualitative</field>
+            <field name="direction">maximize</field>
+            <field name="periodicity">quarterly</field>
+            <field name="target_value">80.0</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">100.0</field>
+            <field name="green_threshold">80.0</field>
+            <field name="amber_threshold">60.0</field>
+            <field name="weight">2.0</field>
+            <field name="calculation_method">manual</field>
+            <field name="sequence">50</field>
+        </record>
+
+        <!-- Sales: Customer Acquisition Cost -->
+        <record id="kpi_template_cac" model="kpi.template">
+            <field name="name">Customer Acquisition Cost</field>
+            <field name="code">CAC</field>
+            <field name="category_id" ref="kpi_category_sales"/>
+            <field name="kpi_type">quantitative</field>
+            <field name="direction">minimize</field>
+            <field name="periodicity">monthly</field>
+            <field name="target_value">150.0</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">500.0</field>
+            <field name="green_threshold">85.0</field>
+            <field name="amber_threshold">60.0</field>
+            <field name="weight">3.0</field>
+            <field name="calculation_method">manual</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <!-- ==================== SAMPLE ASSIGNMENTS ==================== -->
+
+        <!-- Assign Attendance Regularity to HR Department.
+             The ``hr.dep_administration`` XMLID only exists when ``hr`` demo
+             data is loaded; we use a Python expression to gracefully handle
+             both states. -->
+        <record id="kpi_assignment_attendance_hr" model="kpi.assignment">
+            <field name="template_id" ref="kpi_template_attendance"/>
+            <field name="department_id" ref="hr.dep_administration"/>
+            <field name="valid_from" eval="time.strftime('%Y-%m-01')"/>
+            <field name="state">draft</field>
+        </record>
+
+        <!-- Assign Sales Invoice Amount to demo admin employee -->
+        <record id="kpi_assignment_sales_demo" model="kpi.assignment">
+            <field name="template_id" ref="kpi_template_sales_invoice"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="valid_from" eval="time.strftime('%Y-%m-01')"/>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="kpi_assignment_task_demo" model="kpi.assignment">
+            <field name="template_id" ref="kpi_template_task_completion"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="valid_from" eval="time.strftime('%Y-%m-01')"/>
+            <field name="state">draft</field>
+        </record>
+
+        <!-- ==================== SAMPLE RESULTS ==================== -->
+
+        <!-- Sample KPI result for demo admin employee - Attendance -->
+        <record id="kpi_result_attendance_admin_jan" model="kpi.result">
+            <field name="template_id" ref="kpi_template_attendance"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="period_start" eval="time.strftime('2026-07-01')"/>
+            <field name="period_end" eval="time.strftime('2026-07-31')"/>
+            <field name="target_value">95.0</field>
+            <field name="actual_value">92.5</field>
+            <field name="state">approved</field>
+            <field name="notes">Good attendance this month. 2 days of sick leave.</field>
+        </record>
+
+        <!-- Sample KPI result for demo admin employee - Sales -->
+        <record id="kpi_result_sales_admin_jan" model="kpi.result">
+            <field name="template_id" ref="kpi_template_sales_invoice"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="period_start" eval="time.strftime('2026-07-01')"/>
+            <field name="period_end" eval="time.strftime('2026-07-31')"/>
+            <field name="target_value">50000.0</field>
+            <field name="actual_value">65000.0</field>
+            <field name="state">approved</field>
+            <field name="notes">Exceeded target by 30%. Excellent performance.</field>
+        </record>
+
+        <!-- Sample KPI result for demo admin employee - Task Completion -->
+        <record id="kpi_result_task_admin_jan" model="kpi.result">
+            <field name="template_id" ref="kpi_template_task_completion"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="period_start" eval="time.strftime('2026-07-01')"/>
+            <field name="period_end" eval="time.strftime('2026-07-31')"/>
+            <field name="target_value">90.0</field>
+            <field name="actual_value">78.0</field>
+            <field name="state">reviewed</field>
+            <field name="notes">Slightly below target. Need to improve task prioritization.</field>
+        </record>
+    </data>
+</odoo>
