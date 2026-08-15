@@ -93,4 +93,5 @@ application category:
     'application': True,
     'author': 'Mostakim Jihad',
     'license': 'LGPL-3',
+    'images': ['static/description/banner.png'],
 }
