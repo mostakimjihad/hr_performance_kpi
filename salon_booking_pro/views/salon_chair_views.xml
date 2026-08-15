@@ -129,7 +129,7 @@
          ============================================================ -->
     <record id="action_chair_dashboard" model="ir.actions.client">
         <field name="name">Chair Dashboard</field>
-        <field name="tag">salon_management.chair_dashboard</field>
+        <field name="tag">salon_booking_pro.chair_dashboard</field>
         <field name="target">current</field>
     </record>
 

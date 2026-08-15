@@ -390,7 +390,7 @@ class SalonAppointment(models.Model):
     def _get_portal_return_action(self):
         self.ensure_one()
         return self.env['ir.actions.act_window']._for_xml_id(
-            'salon_management.action_salon_appointment_portal_list'
+            'salon_booking_pro.action_salon_appointment_portal_list'
         )
 
     def _get_share_url(self, redirect=True):

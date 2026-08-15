@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <t t-name="salon_management.ChairDashboard" owl="1">
+    <t t-name="salon_booking_pro.ChairDashboard" owl="1">
         <div class="o_action_manager">
             <div class="salon-chair-dashboard">
                 <!-- Header -->
@@ -73,7 +73,7 @@
                         <p>
                             Add chairs to <strong t-esc="state.branchName or 'this branch'"/>
                             from the
-                            <a href="/web#action=salon_management.action_salon_chair">
+                            <a href="/web#action=salon_booking_pro.action_salon_chair">
                                 Chairs menu
                             </a>.
                         </p>

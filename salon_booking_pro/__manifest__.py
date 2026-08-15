@@ -80,13 +80,13 @@ application category:
     ],
     'assets': {
         'web.assets_frontend': [
-            'salon_management/static/src/css/portal.css',
-            'salon_management/static/src/js/portal.js',
+            'salon_booking_pro/static/src/css/portal.css',
+            'salon_booking_pro/static/src/js/portal.js',
         ],
         'web.assets_backend': [
-            'salon_management/static/src/css/chair_dashboard.css',
-            'salon_management/static/src/xml/chair_dashboard.xml',
-            'salon_management/static/src/js/chair_dashboard.js',
+            'salon_booking_pro/static/src/css/chair_dashboard.css',
+            'salon_booking_pro/static/src/xml/chair_dashboard.xml',
+            'salon_booking_pro/static/src/js/chair_dashboard.js',
         ],
     },
     'installable': True,

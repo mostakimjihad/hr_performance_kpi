@@ -3,7 +3,7 @@
 
     <menuitem id="menu_salon_root"
               name="Salon"
-              web_icon="salon_management,static/description/icon.png"
+              web_icon="salon_booking_pro,static/description/icon.png"
               sequence="195"/>
 
     <menuitem id="menu_salon_appointments"

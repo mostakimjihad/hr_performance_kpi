@@ -16,7 +16,7 @@
          Home
          ============================================================ -->
     <template id="portal_home" name="Salon Portal Home">
-        <t t-call="salon_management.portal_salon_layout">
+        <t t-call="salon_booking_pro.portal_salon_layout">
             <section class="salon-hero">
                 <div class="container">
                     <span class="salon-eyebrow">Salon &amp; Spa</span>
@@ -79,7 +79,7 @@
          Branches
          ============================================================ -->
     <template id="portal_branches" name="Salon Branches">
-        <t t-call="salon_management.portal_salon_layout">
+        <t t-call="salon_booking_pro.portal_salon_layout">
             <section class="salon-hero salon-hero-compact">
                 <div class="container">
                     <h1 class="salon-hero-title">Our branches</h1>
@@ -115,7 +115,7 @@
          Branch detail
          ============================================================ -->
     <template id="portal_branch_detail" name="Salon Branch Detail">
-        <t t-call="salon_management.portal_salon_layout">
+        <t t-call="salon_booking_pro.portal_salon_layout">
             <section class="salon-hero salon-hero-compact">
                 <div class="container">
                     <span class="salon-eyebrow">Branch</span>
@@ -185,7 +185,7 @@
          Stylist detail
          ============================================================ -->
     <template id="portal_stylist_detail" name="Salon Stylist Detail">
-        <t t-call="salon_management.portal_salon_layout">
+        <t t-call="salon_booking_pro.portal_salon_layout">
             <section class="salon-hero salon-hero-compact">
                 <div class="container">
                     <span class="salon-eyebrow">Stylist</span>
@@ -223,7 +223,7 @@
          Booking wizard
          ============================================================ -->
     <template id="portal_book" name="Salon Booking Wizard">
-        <t t-call="salon_management.portal_salon_layout">
+        <t t-call="salon_booking_pro.portal_salon_layout">
             <section class="salon-hero salon-hero-compact">
                 <div class="container">
                     <span class="salon-eyebrow">Booking</span>
@@ -500,7 +500,7 @@
          Appointment detail (manage)
          ============================================================ -->
     <template id="portal_appointment_detail" name="Salon Appointment Detail">
-        <t t-call="salon_management.portal_salon_layout">
+        <t t-call="salon_booking_pro.portal_salon_layout">
             <section class="salon-hero salon-hero-compact">
                 <div class="container">
                     <span class="salon-eyebrow">Booking</span>
@@ -590,7 +590,7 @@
          My appointments (logged-in portal user)
          ============================================================ -->
     <template id="portal_my_appointments" name="My Bookings">
-        <t t-call="salon_management.portal_salon_layout">
+        <t t-call="salon_booking_pro.portal_salon_layout">
             <section class="salon-hero salon-hero-compact">
                 <div class="container">
                     <span class="salon-eyebrow">My bookings</span>

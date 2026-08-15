@@ -22,7 +22,7 @@ class SalonPortal(http.Controller):
         Category = request.env['salon.service.category'].sudo()
         branches = Branch.search([('online_visible', '=', True), ('active', '=', True)], order='sequence, name')
         categories = Category.search([('online_visible', '=', True), ('active', '=', True)], order='sequence')
-        return request.render('salon_management.portal_home', {
+        return request.render('salon_booking_pro.portal_home', {
             'branches': branches,
             'categories': categories,
             'main_object': branches[:1],
@@ -33,7 +33,7 @@ class SalonPortal(http.Controller):
         branches = request.env['salon.branch'].sudo().search([
             ('online_visible', '=', True), ('active', '=', True),
         ], order='sequence, name')
-        return request.render('salon_management.portal_branches', {'branches': branches})
+        return request.render('salon_booking_pro.portal_branches', {'branches': branches})
 
     @route(['/salon/branch/<int:branch_id>'], type='http', auth='public', website=True, sitemap=True)
     def branch_detail(self, branch_id, **kw):
@@ -50,7 +50,7 @@ class SalonPortal(http.Controller):
             ('online_visible', '=', True),
             ('active', '=', True),
         ], order='name')
-        return request.render('salon_management.portal_branch_detail', {
+        return request.render('salon_booking_pro.portal_branch_detail', {
             'branch': branch,
             'services': services,
             'stylists': stylists,
@@ -62,7 +62,7 @@ class SalonPortal(http.Controller):
         if not stylist.exists() or not stylist.online_visible:
             return request.not_found()
         services = stylist.service_ids.filtered(lambda s: s.online_visible and s.active)
-        return request.render('salon_management.portal_stylist_detail', {
+        return request.render('salon_booking_pro.portal_stylist_detail', {
             'stylist': stylist,
             'services': services,
         })
@@ -108,7 +108,7 @@ class SalonPortal(http.Controller):
             'errors': {},
             'Booking': Booking,
         }
-        return request.render('salon_management.portal_book', values)
+        return request.render('salon_booking_pro.portal_book', values)
 
     @route(['/salon/book/select'], type='http', auth='public', website=True, methods=['POST'], csrf=True)
     def book_select(self, **post):
@@ -206,7 +206,7 @@ class SalonPortal(http.Controller):
                 ]),
                 'errors': errors,
             }
-            return request.render('salon_management.portal_book', values)
+            return request.render('salon_booking_pro.portal_book', values)
 
         try:
             start_dt = datetime.fromisoformat(start_str)
@@ -251,7 +251,7 @@ class SalonPortal(http.Controller):
                 ]),
                 'errors': {'slot': str(exc)},
             }
-            return request.render('salon_management.portal_book', values)
+            return request.render('salon_booking_pro.portal_book', values)
 
         # Clear session
         for k in list(session.keys()):
@@ -312,7 +312,7 @@ class SalonPortal(http.Controller):
             appt = self._get_appointment(appointment_id, access_token)
         except AccessError:
             return request.not_found()
-        return request.render('salon_management.portal_appointment_detail', {
+        return request.render('salon_booking_pro.portal_appointment_detail', {
             'appointment': appt,
             'token': access_token,
             'format_datetime': lambda dt: format_datetime(
@@ -371,7 +371,7 @@ class SalonPortal(http.Controller):
             ('partner_id', '=', partner.id),
             ('guest_email', '=ilike', partner.email or ''),
         ], order='start_datetime desc')
-        return request.render('salon_management.portal_my_appointments', {
+        return request.render('salon_booking_pro.portal_my_appointments', {
             'appointments': appointments,
             'partner': partner,
             'format_datetime': lambda dt: format_datetime(

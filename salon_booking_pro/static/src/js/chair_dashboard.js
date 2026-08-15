@@ -43,7 +43,7 @@ function formatTime(value) {
 }
 
 class ChairDashboard extends Component {
-    static template = "salon_management.ChairDashboard";
+    static template = "salon_booking_pro.ChairDashboard";
     static props = {
         action: { type: Object, optional: true },
         actionId: { type: Number, optional: true },
@@ -213,4 +213,4 @@ class ChairDashboard extends Component {
     }
 }
 
-registry.category("actions").add("salon_management.chair_dashboard", ChairDashboard);
+registry.category("actions").add("salon_booking_pro.chair_dashboard", ChairDashboard);
