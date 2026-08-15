@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Category — visible under Settings → Users & Companies → Groups
+         ============================================================ -->
+    <record id="module_category_salon" model="ir.module.category">
+        <field name="name">Salon Management</field>
+        <field name="sequence">195</field>
+        <field name="parent_id" ref="base.module_category_human_resources"/>
+    </record>
+
+    <!-- ============================================================
+         Privilege — Odoo 19 now ties groups to a privilege, which in
+         turn belongs to a module category. One privilege per category.
+         ============================================================ -->
+    <record id="privilege_salon" model="res.groups.privilege">
+        <field name="name">Salon</field>
+        <field name="category_id" ref="module_category_salon"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- ============================================================
+         Groups
+         ============================================================ -->
+    <record id="group_salon_manager" model="res.groups">
+        <field name="name">Salon Manager</field>
+        <field name="privilege_id" ref="privilege_salon"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+        <field name="comment">Full access to branches, services, stylists and appointments.</field>
+    </record>
+
+    <record id="group_salon_stylist" model="res.groups">
+        <field name="name">Salon Stylist</field>
+        <field name="privilege_id" ref="privilege_salon"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+        <field name="comment">Read access to catalog. Manage only their own appointments.</field>
+    </record>
+
+    <record id="group_salon_portal_booking" model="res.groups">
+        <field name="name">Salon Booking (Portal)</field>
+        <field name="privilege_id" ref="privilege_salon"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_portal'))]"/>
+        <field name="comment">Portal users who can manage their salon bookings.</field>
+    </record>
+
+</odoo>

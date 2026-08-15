@@ -1,0 +1,383 @@
+/* ==========================================================================
+   Salon Management — modern portal styling
+   Palette: rose gold #c97b84 · cream #f5ebe0 · charcoal #2d3142 · blush #f8f3ee
+   ========================================================================== */
+
+:root {
+    --salon-rose: #c97b84;
+    --salon-rose-dark: #a85964;
+    --salon-cream: #f5ebe0;
+    --salon-blush: #f8f3ee;
+    --salon-charcoal: #2d3142;
+    --salon-charcoal-soft: #4a4f63;
+    --salon-muted: #9aa0a8;
+    --salon-border: rgba(45, 49, 66, 0.08);
+    --salon-radius: 16px;
+    --salon-shadow-sm: 0 2px 8px rgba(45, 49, 66, 0.06);
+    --salon-shadow: 0 12px 40px rgba(45, 49, 66, 0.10);
+    --salon-shadow-lg: 0 24px 80px rgba(45, 49, 66, 0.16);
+}
+
+html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--salon-charcoal);
+}
+
+#salon-portal {
+    background: var(--salon-blush);
+}
+
+/* -------------------------------------------------------------------------- */
+/* HERO                                                                       */
+/* -------------------------------------------------------------------------- */
+.salon-hero {
+    background: linear-gradient(135deg, var(--salon-cream) 0%, #f2d8dc 100%);
+    padding: 7rem 0 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.salon-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 12% 20%, rgba(255,255,255,0.4), transparent 35%),
+        radial-gradient(circle at 90% 80%, rgba(201,123,132,0.18), transparent 40%);
+    pointer-events: none;
+}
+.salon-hero > .container { position: relative; z-index: 1; }
+
+.salon-hero-compact { padding: 4rem 0 3rem; }
+
+.salon-eyebrow {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+    color: var(--salon-rose-dark);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.salon-hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 700;
+    color: var(--salon-charcoal);
+    margin: 0 0 1rem;
+    line-height: 1.1;
+}
+.salon-hero-sub {
+    font-size: 1.15rem;
+    color: var(--salon-charcoal-soft);
+    max-width: 640px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.6;
+}
+
+/* -------------------------------------------------------------------------- */
+/* BUTTONS                                                                    */
+/* -------------------------------------------------------------------------- */
+.btn-salon-primary,
+.btn-salon-outline {
+    --bs-btn-padding-x: 1.5rem;
+    --bs-btn-padding-y: 0.75rem;
+    --bs-btn-font-weight: 500;
+    --bs-btn-border-radius: 999px;
+    --bs-btn-font-size: 1rem;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.btn-salon-primary {
+    background: var(--salon-rose);
+    border-color: var(--salon-rose);
+    color: #fff;
+}
+.btn-salon-primary:hover,
+.btn-salon-primary:focus {
+    background: var(--salon-rose-dark);
+    border-color: var(--salon-rose-dark);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(201, 123, 132, 0.35);
+}
+.btn-salon-outline {
+    background: transparent;
+    border: 2px solid var(--salon-rose);
+    color: var(--salon-rose-dark);
+}
+.btn-salon-outline:hover,
+.btn-salon-outline:focus {
+    background: var(--salon-rose);
+    color: #fff;
+    border-color: var(--salon-rose);
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION                                                                    */
+/* -------------------------------------------------------------------------- */
+.salon-section {
+    padding: 5rem 0;
+}
+.salon-section-alt {
+    background: #fff;
+}
+.salon-section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    color: var(--salon-charcoal);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+.salon-section-lead {
+    text-align: center;
+    color: var(--salon-charcoal-soft);
+    font-size: 1.05rem;
+    margin-bottom: 3rem;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CARDS                                                                      */
+/* -------------------------------------------------------------------------- */
+.salon-card {
+    display: block;
+    background: #fff;
+    border-radius: var(--salon-radius);
+    overflow: hidden;
+    border: 1px solid var(--salon-border);
+    box-shadow: var(--salon-shadow-sm);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    height: 100%;
+    color: var(--salon-charcoal);
+    position: relative;
+}
+.salon-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--salon-shadow);
+    color: var(--salon-charcoal);
+}
+.salon-card-image-wrap {
+    aspect-ratio: 16 / 9;
+    background: var(--salon-cream);
+}
+.salon-card-body {
+    padding: 1.25rem 1.4rem 1.5rem;
+}
+.salon-card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0.15rem 0 0.4rem;
+}
+.salon-card-meta {
+    color: var(--salon-charcoal-soft);
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+.salon-card-cta {
+    display: inline-block;
+    margin: 0 1.4rem 1.25rem;
+    color: var(--salon-rose-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* Category tile (no image) */
+.salon-category-card .salon-card-image-wrap {
+    background: linear-gradient(135deg, var(--salon-cream), #f2d8dc);
+}
+
+/* Branch card */
+.salon-branch-card .salon-card-body { padding: 1.5rem 1.6rem; }
+
+/* Stylist card */
+.salon-stylist-card { text-align: center; }
+.salon-stylist-photo {
+    aspect-ratio: 1 / 1;
+    background: var(--salon-cream);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.salon-stylist-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+.salon-stylist-initials {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    color: var(--salon-rose-dark);
+    font-weight: 700;
+}
+
+/* Picker styles (radio/checkbox wrapped around cards) */
+.salon-branch-pick,
+.salon-service-pick,
+.salon-stylist-pick {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.salon-radio,
+.salon-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.salon-branch-pick:has(.salon-radio:checked),
+.salon-service-pick:has(.salon-checkbox:checked),
+.salon-stylist-pick:has(.salon-radio:checked) {
+    border-color: var(--salon-rose);
+    box-shadow: 0 0 0 4px rgba(201, 123, 132, 0.18);
+    transform: translateY(-2px);
+}
+
+/* -------------------------------------------------------------------------- */
+/* STEPPER                                                                    */
+/* -------------------------------------------------------------------------- */
+.salon-stepper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem auto 0;
+    max-width: 720px;
+}
+.salon-stepper-item {
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--salon-charcoal-soft);
+    font-size: 0.92rem;
+    font-weight: 500;
+    border: 1px solid var(--salon-border);
+}
+.salon-stepper-item.is-active {
+    background: var(--salon-rose);
+    color: #fff;
+    border-color: var(--salon-rose);
+    box-shadow: 0 6px 18px rgba(201, 123, 132, 0.35);
+}
+.salon-stepper-item.is-done {
+    background: var(--salon-cream);
+    color: var(--salon-rose-dark);
+    border-color: var(--salon-rose);
+}
+
+/* -------------------------------------------------------------------------- */
+/* WIZARD                                                                     */
+/* -------------------------------------------------------------------------- */
+.salon-wizard {
+    background: #fff;
+    border-radius: var(--salon-radius);
+    padding: 2.5rem;
+    box-shadow: var(--salon-shadow);
+    border: 1px solid var(--salon-border);
+}
+.salon-summary {
+    background: var(--salon-blush);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--salon-border);
+}
+.salon-summary h3 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--salon-rose-dark);
+    margin: 0 0 0.75rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* DETAIL / SUMMARY                                                           */
+/* -------------------------------------------------------------------------- */
+.salon-detail-card {
+    background: #fff;
+    border-radius: var(--salon-radius);
+    padding: 2.5rem;
+    box-shadow: var(--salon-shadow);
+    border: 1px solid var(--salon-border);
+}
+.salon-detail-card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    color: var(--salon-charcoal);
+}
+.salon-total {
+    font-size: 1.25rem;
+    color: var(--salon-rose-dark);
+    margin-top: 1rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* BADGES & TABLES                                                            */
+/* -------------------------------------------------------------------------- */
+.salon-badge {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--salon-cream);
+    color: var(--salon-charcoal);
+}
+.salon-badge-draft       { background: #f3e8ff; color: #6b21a8; }
+.salon-badge-confirmed   { background: #d1fae5; color: #065f46; }
+.salon-badge-in_progress { background: #fef3c7; color: #92400e; }
+.salon-badge-done        { background: #e0f2fe; color: #075985; }
+.salon-badge-cancelled   { background: #fee2e2; color: #991b1b; }
+.salon-badge-no_show     { background: #f3f4f6; color: #6b7280; }
+
+.salon-table {
+    background: #fff;
+    border-radius: var(--salon-radius);
+    overflow: hidden;
+    border: 1px solid var(--salon-border);
+    box-shadow: var(--salon-shadow-sm);
+}
+.salon-table thead {
+    background: var(--salon-blush);
+}
+.salon-table thead th {
+    color: var(--salon-charcoal-soft);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--salon-border);
+}
+
+/* -------------------------------------------------------------------------- */
+/* SIGNUP CTA                                                                 */
+/* -------------------------------------------------------------------------- */
+.salon-signup-cta {
+    background: linear-gradient(135deg, #fff, var(--salon-blush));
+    border-radius: var(--salon-radius);
+    padding: 2rem;
+    border: 1px solid var(--salon-border);
+    box-shadow: var(--salon-shadow-sm);
+}
+.salon-signup-cta h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--salon-charcoal);
+    margin: 0 0 0.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESPONSIVE                                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .salon-hero { padding: 5rem 0 3rem; }
+    .salon-section { padding: 3rem 0; }
+    .salon-wizard { padding: 1.5rem; }
+    .salon-detail-card { padding: 1.5rem; }
+    .salon-stepper-item { padding: 0.4rem 0.9rem; font-size: 0.82rem; }
+}

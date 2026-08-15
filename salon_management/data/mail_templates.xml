@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <record id="mail_template_salon_appointment_confirmed" model="mail.template">
+        <field name="name">Salon Appointment: Confirmed</field>
+        <field name="model_id" ref="model_salon_appointment"/>
+        <field name="subject">{{ object.name }} — your booking is confirmed</field>
+        <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+        <field name="email_to">{{ object.guest_email or object.partner_id.email }}</field>
+        <field name="body_html" type="html">
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+    <h2 style="color:#c97b84;">Your booking is confirmed ✨</h2>
+    <p>Hello <t t-out="object._customer_display() or 'there'"/>,</p>
+    <p>Your appointment at <strong t-out="object.branch_id.name"/> on
+       <strong t-out="object.start_datetime.strftime('%A %d %B %Y at %H:%M')"/>
+       has been confirmed.</p>
+    <table style="width:100%; border-collapse: collapse; margin: 16px 0;">
+        <tr><td><strong>Stylist</strong></td><td t-out="object.stylist_id.name"/></tr>
+        <tr><td><strong>Services</strong></td>
+            <td>
+                <t t-foreach="object.line_ids" t-as="l">
+                    <div t-out="l.service_id.name"/> <span style="color:#888;" t-out="'%.2f' % l.duration"/> h
+                </t>
+            </td>
+        </tr>
+        <tr><td><strong>Total</strong></td><td t-out="format_amount(object.total_price, object.currency_id)"/></tr>
+    </table>
+    <p>You can view or cancel this booking here:</p>
+    <p><a t-att-href="object._portal_share_url()"
+          style="background:#c97b84;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;">
+        Manage my booking
+    </a></p>
+    <p style="color:#888;font-size:12px;">Sent automatically by Odoo — Salon Management.</p>
+</div>
+        </field>
+        <field name="lang">{{ object.partner_id.lang or user.lang }}</field>
+        <field name="auto_delete" eval="False"/>
+    </record>
+
+    <record id="mail_template_salon_appointment_cancelled" model="mail.template">
+        <field name="name">Salon Appointment: Cancelled</field>
+        <field name="model_id" ref="model_salon_appointment"/>
+        <field name="subject">{{ object.name }} — your booking has been cancelled</field>
+        <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+        <field name="email_to">{{ object.guest_email or object.partner_id.email }}</field>
+        <field name="body_html" type="html">
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+    <h2 style="color:#c97b84;">Your booking was cancelled</h2>
+    <p>Hello <t t-out="object._customer_display() or 'there'"/>,</p>
+    <p>Your appointment <strong t-out="object.name"/> on
+       <strong t-out="object.start_datetime.strftime('%A %d %B %Y at %H:%M')"/>
+       has been cancelled.</p>
+    <p>If this was a mistake, please get in touch with us.</p>
+</div>
+        </field>
+        <field name="lang">{{ object.partner_id.lang or user.lang }}</field>
+        <field name="auto_delete" eval="False"/>
+    </record>
+
+</data>
+</odoo>

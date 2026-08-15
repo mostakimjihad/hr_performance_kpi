@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Layout for /salon portal pages
+         ============================================================ -->
+    <template id="portal_salon_layout" name="Salon Portal Layout">
+        <t t-call="portal.frontend_layout">
+            <div id="salon-portal" class="salon-portal">
+                <t t-out="0"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============================================================
+         Home
+         ============================================================ -->
+    <template id="portal_home" name="Salon Portal Home">
+        <t t-call="salon_management.portal_salon_layout">
+            <section class="salon-hero">
+                <div class="container">
+                    <span class="salon-eyebrow">Salon &amp; Spa</span>
+                    <h1 class="salon-hero-title">A moment of pure indulgence.</h1>
+                    <p class="salon-hero-sub">Book a service, choose your stylist, and pick a time that suits you — all in a few taps.</p>
+                    <a href="/salon/book" class="btn btn-salon-primary btn-lg">Book an appointment</a>
+                    <a href="/salon/branches" class="btn btn-salon-outline btn-lg ms-2">Browse branches</a>
+                </div>
+            </section>
+
+            <section class="salon-section">
+                <div class="container">
+                    <h2 class="salon-section-title">Our services</h2>
+                    <p class="salon-section-lead">Browse by category and find the treatment you deserve.</p>
+                    <div class="row g-4">
+                        <t t-foreach="categories" t-as="cat">
+                            <div class="col-md-6 col-lg-4">
+                                <a href="/salon/book?step=1" class="salon-card salon-category-card text-decoration-none">
+                                    <div class="salon-card-image-wrap" t-attf-style="background:#{cat.color and 'eee' or 'f5ebe0'};"/>
+                                    <div class="salon-card-body">
+                                        <h3 class="salon-card-title" t-esc="cat.name"/>
+                                        <p class="salon-card-meta">
+                                            <t t-esc="cat.service_count"/> services
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+
+            <section class="salon-section salon-section-alt">
+                <div class="container">
+                    <h2 class="salon-section-title">Our branches</h2>
+                    <div class="row g-4">
+                        <t t-foreach="branches" t-as="b">
+                            <div class="col-md-6">
+                                <a t-att-href="'/salon/branch/%s' % b.id" class="salon-card salon-branch-card text-decoration-none">
+                                    <div class="salon-card-body">
+                                        <h3 class="salon-card-title" t-esc="b.name"/>
+                                        <p class="salon-card-meta">
+                                            <i class="fa fa-phone"/> <t t-esc="b.phone or ''"/>
+                                        </p>
+                                        <p class="salon-card-meta">
+                                            <i class="fa fa-envelope"/> <t t-esc="b.email or ''"/>
+                                        </p>
+                                    </div>
+                                    <span class="salon-card-cta">View branch →</span>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- ============================================================
+         Branches
+         ============================================================ -->
+    <template id="portal_branches" name="Salon Branches">
+        <t t-call="salon_management.portal_salon_layout">
+            <section class="salon-hero salon-hero-compact">
+                <div class="container">
+                    <h1 class="salon-hero-title">Our branches</h1>
+                    <p class="salon-hero-sub">Pick the location closest to you.</p>
+                </div>
+            </section>
+            <section class="salon-section">
+                <div class="container">
+                    <div class="row g-4">
+                        <t t-foreach="branches" t-as="b">
+                            <div class="col-md-6 col-lg-4">
+                                <a t-att-href="'/salon/branch/%s' % b.id" class="salon-card salon-branch-card text-decoration-none">
+                                    <div class="salon-card-body">
+                                        <h3 class="salon-card-title" t-esc="b.name"/>
+                                        <p class="salon-card-meta" t-esc="b.code"/>
+                                        <p class="salon-card-meta" t-if="b.phone">
+                                            <i class="fa fa-phone"/> <t t-esc="b.phone"/>
+                                        </p>
+                                        <p class="salon-card-meta" t-if="b.email">
+                                            <i class="fa fa-envelope"/> <t t-esc="b.email"/>
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- ============================================================
+         Branch detail
+         ============================================================ -->
+    <template id="portal_branch_detail" name="Salon Branch Detail">
+        <t t-call="salon_management.portal_salon_layout">
+            <section class="salon-hero salon-hero-compact">
+                <div class="container">
+                    <span class="salon-eyebrow">Branch</span>
+                    <h1 class="salon-hero-title" t-esc="branch.name"/>
+                    <p class="salon-hero-sub">
+                        <t t-if="branch.phone"><i class="fa fa-phone"/> <t t-esc="branch.phone"/> · </t>
+                        <t t-if="branch.email"><i class="fa fa-envelope"/> <t t-esc="branch.email"/></t>
+                    </p>
+                    <a class="btn btn-salon-primary"
+                       t-att-href="'/salon/book?step=2&amp;branch_id=%s' % branch.id">Book at this branch</a>
+                </div>
+            </section>
+
+            <section class="salon-section">
+                <div class="container">
+                    <h2 class="salon-section-title">Services</h2>
+                    <div class="row g-4">
+                        <t t-foreach="services" t-as="s">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="salon-card">
+                                    <div class="salon-card-image-wrap"
+                                         t-attf-style="background:#f5ebe0;"/>
+                                    <div class="salon-card-body">
+                                        <small class="salon-card-meta" t-esc="s.category_id.name"/>
+                                        <h3 class="salon-card-title" t-esc="s.name"/>
+                                        <p class="salon-card-meta">
+                                            <t t-esc="s.duration_minutes"/> min ·
+                                            <span t-esc="s.list_price"
+                                                  t-options='{"widget": "monetary", "display_currency": s.company_id.currency_id}'/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+
+            <section class="salon-section salon-section-alt" t-if="stylists">
+                <div class="container">
+                    <h2 class="salon-section-title">Meet the team</h2>
+                    <div class="row g-4">
+                        <t t-foreach="stylists" t-as="st">
+                            <div class="col-md-4 col-lg-3">
+                                <a t-att-href="'/salon/stylist/%s' % st.id" class="salon-card salon-stylist-card text-decoration-none">
+                                    <div class="salon-stylist-photo">
+                                        <t t-if="st.image">
+                                            <img t-att-src="'data:image/png;base64,%s' % st.image.decode()" t-att-alt="st.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="salon-stylist-initials" t-esc="st.name[:1] if st.name else '?'"/>
+                                        </t>
+                                    </div>
+                                    <div class="salon-card-body">
+                                        <h3 class="salon-card-title" t-esc="st.name"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- ============================================================
+         Stylist detail
+         ============================================================ -->
+    <template id="portal_stylist_detail" name="Salon Stylist Detail">
+        <t t-call="salon_management.portal_salon_layout">
+            <section class="salon-hero salon-hero-compact">
+                <div class="container">
+                    <span class="salon-eyebrow">Stylist</span>
+                    <h1 class="salon-hero-title" t-esc="stylist.name"/>
+                    <p class="salon-hero-sub" t-field="stylist.bio"/>
+                    <a class="btn btn-salon-primary"
+                       t-att-href="'/salon/book?step=3&amp;stylist_id=%s' % stylist.id">Book this stylist</a>
+                </div>
+            </section>
+            <section class="salon-section">
+                <div class="container">
+                    <h2 class="salon-section-title">Services offered</h2>
+                    <div class="row g-4">
+                        <t t-foreach="services" t-as="s">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="salon-card">
+                                    <div class="salon-card-body">
+                                        <h3 class="salon-card-title" t-esc="s.name"/>
+                                        <p class="salon-card-meta">
+                                            <t t-esc="s.duration_minutes"/> min ·
+                                            <span t-esc="s.list_price"
+                                                  t-options='{"widget": "monetary", "display_currency": s.company_id.currency_id}'/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- ============================================================
+         Booking wizard
+         ============================================================ -->
+    <template id="portal_book" name="Salon Booking Wizard">
+        <t t-call="salon_management.portal_salon_layout">
+            <section class="salon-hero salon-hero-compact">
+                <div class="container">
+                    <span class="salon-eyebrow">Booking</span>
+                    <h1 class="salon-hero-title">Book your appointment</h1>
+                    <p class="salon-hero-sub">Step <t t-esc="step"/> of 5</p>
+                    <ol class="salon-stepper">
+                        <li t-att-class="'salon-stepper-item %s' % ('is-active' if step == 1 else 'is-done')">Branch</li>
+                        <li t-att-class="'salon-stepper-item %s' % ('is-active' if step == 2 else ('is-done' if step > 2 else ''))">Services</li>
+                        <li t-att-class="'salon-stepper-item %s' % ('is-active' if step == 3 else ('is-done' if step > 3 else ''))">Stylist</li>
+                        <li t-att-class="'salon-stepper-item %s' % ('is-active' if step == 4 else ('is-done' if step > 4 else ''))">Date &amp; time</li>
+                        <li t-att-class="'salon-stepper-item %s' % ('is-active' if step == 5 else '')">Details</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="salon-section">
+                <div class="container">
+                    <div class="salon-wizard">
+                        <!-- STEP 1 — Branch -->
+                        <t t-if="step == 1">
+                            <h2 class="salon-section-title">Choose a branch</h2>
+                            <form method="post" action="/salon/book/select">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="step" value="1"/>
+                                <div class="row g-4">
+                                    <t t-foreach="branches" t-as="b">
+                                        <div class="col-md-6">
+                                            <label class="salon-card salon-branch-card text-decoration-none salon-branch-pick">
+                                                <input type="radio" name="branch_id" t-att-value="b.id"
+                                                       t-att-checked="'checked' if booking['branch_id'] == b.id else None"
+                                                       class="salon-radio"/>
+                                                <div class="salon-card-body">
+                                                    <h3 class="salon-card-title" t-esc="b.name"/>
+                                                    <p class="salon-card-meta" t-if="b.phone">
+                                                        <i class="fa fa-phone"/> <t t-esc="b.phone"/>
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </t>
+                                </div>
+                                <button type="submit" class="btn btn-salon-primary mt-4">Continue</button>
+                            </form>
+                        </t>
+
+                        <!-- STEP 2 — Services -->
+                        <t t-if="step == 2">
+                            <h2 class="salon-section-title">Pick your services</h2>
+                            <form method="post" action="/salon/book/select">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="step" value="2"/>
+                                <t t-set="branch"
+                                   t-value="branches.filtered(lambda b: b.id == booking['branch_id'])"/>
+                                <t t-set="services"
+                                   t-value="request.env['salon.service'].sudo().search([
+                                       ('online_visible', '=', True),
+                                       ('active', '=', True),
+                                       '|', ('branch_ids', '=', False),
+                                            ('branch_ids', 'in', branch.id if branch else 0),
+                                   ])"/>
+                                <div class="row g-3">
+                                    <t t-foreach="services" t-as="s">
+                                        <div class="col-md-6 col-lg-4">
+                                            <label class="salon-card salon-service-pick">
+                                                <input type="checkbox" name="service_ids"
+                                                       t-att-value="s.id"
+                                                       t-att-checked="'checked' if s.id in booking['service_ids'] else None"
+                                                       class="salon-checkbox"/>
+                                                <div class="salon-card-body">
+                                                    <small class="salon-card-meta" t-esc="s.category_id.name"/>
+                                                    <h3 class="salon-card-title" t-esc="s.name"/>
+                                                    <p class="salon-card-meta">
+                                                        <t t-esc="s.duration_minutes"/> min ·
+                                                        <span t-esc="s.list_price"
+                                                              t-options='{"widget": "monetary", "display_currency": s.company_id.currency_id}'/>
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="mt-4 d-flex gap-2">
+                                    <a class="btn btn-salon-outline" href="/salon/book?step=1">Back</a>
+                                    <button type="submit" class="btn btn-salon-primary">Continue</button>
+                                </div>
+                            </form>
+                        </t>
+
+                        <!-- STEP 3 — Stylist -->
+                        <t t-if="step == 3">
+                            <h2 class="salon-section-title">Choose a stylist</h2>
+                            <form method="post" action="/salon/book/select">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="step" value="3"/>
+                                <t t-set="stylists"
+                                   t-value="request.env['salon.stylist'].sudo().search([
+                                       ('branch_ids', 'in', booking['branch_id'] or 0),
+                                       ('online_visible', '=', True),
+                                       ('active', '=', True),
+                                   ])"/>
+                                <div class="row g-4">
+                                    <t t-foreach="stylists" t-as="st">
+                                        <div class="col-md-4 col-lg-3">
+                                            <label class="salon-card salon-stylist-card salon-stylist-pick text-decoration-none">
+                                                <input type="radio" name="stylist_id"
+                                                       t-att-value="st.id"
+                                                       t-att-checked="'checked' if booking['stylist_id'] == st.id else None"
+                                                       class="salon-radio"/>
+                                                <div class="salon-stylist-photo">
+                                                    <t t-if="st.image">
+                                                        <img t-att-src="'data:image/png;base64,%s' % st.image.decode()" t-att-alt="st.name"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="salon-stylist-initials" t-esc="st.name[:1] if st.name else '?'"/>
+                                                    </t>
+                                                </div>
+                                                <div class="salon-card-body">
+                                                    <h3 class="salon-card-title" t-esc="st.name"/>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="mt-4 d-flex gap-2">
+                                    <a class="btn btn-salon-outline" href="/salon/book?step=2">Back</a>
+                                    <button type="submit" class="btn btn-salon-primary">Continue</button>
+                                </div>
+                            </form>
+                        </t>
+
+                        <!-- STEP 4 — Date and time -->
+                        <t t-if="step == 4">
+                            <h2 class="salon-section-title">Pick a date and time</h2>
+                            <form method="post" action="/salon/book/select">
+                                <input type="hidden" name="step" value="4"/>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Date</label>
+                                        <input type="date" name="date" class="form-control"
+                                               t-att-value="booking['date'] or ''"
+                                               required="required"
+                                               t-att-min="datetime.date.today().isoformat()"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Time</label>
+                                        <select name="start" class="form-select" required="required" id="salon_slot_select">
+                                            <option value="">Pick a date first</option>
+                                        </select>
+                                        <small class="form-text text-muted">Available slots refresh as you pick a date.</small>
+                                    </div>
+                                </div>
+                                <div class="mt-4 d-flex gap-2">
+                                    <a class="btn btn-salon-outline" href="/salon/book?step=3">Back</a>
+                                    <button type="submit" class="btn btn-salon-primary">Continue</button>
+                                </div>
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            </form>
+                            <script type="text/javascript">
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var branchId = <t t-esc="booking['branch_id'] or 0"/>;
+                                    var stylistId = <t t-esc="booking['stylist_id'] or 0"/>;
+                                    var serviceIds = <t t-esc="str(booking['service_ids'] or [])"/>;
+                                    var slotSelect = document.getElementById('salon_slot_select');
+                                    var dateInput = document.querySelector('input[name="date"]');
+                                    function refresh() {
+                                        if (!dateInput.value) { return; }
+                                        fetch('/salon/availability', {
+                                            method: 'POST',
+                                            headers: {'Content-Type': 'application/json'},
+                                            body: JSON.stringify({
+                                                jsonrpc: '2.0',
+                                                method: 'call',
+                                                params: {
+                                                    branch_id: branchId,
+                                                    stylist_id: stylistId,
+                                                    service_ids: serviceIds,
+                                                    date: dateInput.value,
+                                                },
+                                            }),
+                                        }).then(function (r) { return r.json(); })
+                                          .then(function (r) {
+                                              slotSelect.innerHTML = '';
+                                              if (!r.result || !r.result.slots || !r.result.slots.length) {
+                                                  var opt = document.createElement('option');
+                                                  opt.text = 'No slots available';
+                                                  opt.value = '';
+                                                  slotSelect.appendChild(opt);
+                                                  return;
+                                              }
+                                              r.result.slots.forEach(function (s) {
+                                                  var opt = document.createElement('option');
+                                                  opt.value = s.iso;
+                                                  opt.text = s.label;
+                                                  slotSelect.appendChild(opt);
+                                              });
+                                          });
+                                    }
+                                    dateInput.addEventListener('change', refresh);
+                                    if (dateInput.value) { refresh(); }
+                                });
+                            </script>
+                        </t>
+
+                        <!-- STEP 5 — Details and confirm -->
+                        <t t-if="step == 5">
+                            <h2 class="salon-section-title">Your details</h2>
+                            <p class="text-muted">Just a few details and you're set. We don't require an account.</p>
+                            <form method="post" action="/salon/book/confirm">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Full name *</label>
+                                        <input type="text" name="guest_name" class="form-control"
+                                               t-att-value="booking['guest_name'] or ''"
+                                               required="required"/>
+                                        <small class="text-danger" t-if="errors.get('guest_name')" t-esc="errors['guest_name']"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" name="guest_email" class="form-control"
+                                               t-att-value="booking['guest_email'] or ''"
+                                               required="required"/>
+                                        <small class="text-danger" t-if="errors.get('guest_email')" t-esc="errors['guest_email']"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Phone *</label>
+                                        <input type="tel" name="guest_phone" class="form-control"
+                                               t-att-value="booking['guest_phone'] or ''"
+                                               required="required"/>
+                                        <small class="text-danger" t-if="errors.get('guest_phone')" t-esc="errors['guest_phone']"/>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">Notes (optional)</label>
+                                        <textarea name="guest_notes" class="form-control" rows="3"><t t-esc="booking['guest_notes'] or ''"/></textarea>
+                                    </div>
+                                </div>
+                                <div class="salon-summary mt-4">
+                                    <h3>Booking summary</h3>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <strong>Branch:</strong>
+                                            <t t-foreach="branches" t-as="b">
+                                                <t t-if="b.id == booking['branch_id']" t-esc="b.name"/>
+                                            </t>
+                                        </li>
+                                        <li>
+                                            <strong>Date:</strong>
+                                            <t t-esc="booking['date']"/>
+                                            at
+                                            <t t-esc="booking['start'][11:16] if booking['start'] else ''"/>
+                                        </li>
+                                        <li t-if="booking['stylist_id']">
+                                            <strong>Stylist:</strong>
+                                            <t t-set="_st" t-value="request.env['salon.stylist'].sudo().browse(booking['stylist_id'])"/>
+                                            <t t-esc="_st.name"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mt-4 d-flex gap-2">
+                                    <a class="btn btn-salon-outline" href="/salon/book?step=4">Back</a>
+                                    <button type="submit" class="btn btn-salon-primary">Confirm booking</button>
+                                </div>
+                                <p class="text-danger mt-3" t-if="errors.get('step')" t-esc="errors['step']"/>
+                                <p class="text-danger mt-3" t-if="errors.get('slot')" t-esc="errors['slot']"/>
+                            </form>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- ============================================================
+         Appointment detail (manage)
+         ============================================================ -->
+    <template id="portal_appointment_detail" name="Salon Appointment Detail">
+        <t t-call="salon_management.portal_salon_layout">
+            <section class="salon-hero salon-hero-compact">
+                <div class="container">
+                    <span class="salon-eyebrow">Booking</span>
+                    <h1 class="salon-hero-title" t-esc="appointment.name"/>
+                    <p class="salon-hero-sub" t-esc="appointment._customer_display()"/>
+                </div>
+            </section>
+            <section class="salon-section">
+                <div class="container">
+                    <div class="salon-detail-card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Where &amp; when</h3>
+                                <p><strong>Branch:</strong> <t t-esc="appointment.branch_id.name"/></p>
+                                <p><strong>Stylist:</strong> <t t-esc="appointment.stylist_id.name"/></p>
+                                <p><strong>Date:</strong>
+                                    <t t-esc="format_datetime(appointment.start_datetime)"/>
+                                </p>
+                                <p><strong>Duration:</strong>
+                                    <t t-esc="'%.1f h' % appointment.duration"/>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h3>Services</h3>
+                                <ul>
+                                    <t t-foreach="appointment.line_ids" t-as="line">
+                                        <li>
+                                            <t t-esc="line.service_id.name"/>
+                                            · <t t-esc="line.duration"/> h
+                                            · <t t-esc="line.price_unit"
+                                                 t-options='{"widget": "monetary", "display_currency": appointment.currency_id}'/>
+                                        </li>
+                                    </t>
+                                </ul>
+                                <p class="salon-total">
+                                    <strong>Total:</strong>
+                                    <span t-esc="appointment.total_price"
+                                          t-options='{"widget": "monetary", "display_currency": appointment.currency_id}'/>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <span class="salon-badge"
+                                  t-attf-class="salon-badge-{{ appointment.state }}">
+                                <t t-esc="dict(appointment._fields['state'].selection).get(appointment.state)"/>
+                            </span>
+                        </div>
+                        <div t-if="appointment.state not in ('done', 'cancelled', 'no_show')" class="mt-4">
+                            <form method="post"
+                                  t-att-action="'/salon/appointment/%s/cancel' % appointment.id">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="access_token" t-att-value="token"/>
+                                <button type="submit" class="btn btn-salon-outline"
+                                        onclick="return confirm('Cancel this appointment?');">
+                                    Cancel appointment
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div t-if="not appointment.partner_id" class="salon-signup-cta mt-4">
+                        <h3>Want to manage this booking later?</h3>
+                        <p>Create a free account so you can view and cancel appointments any time.</p>
+                        <form method="post" action="/salon/signup">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="access_token" t-att-value="token"/>
+                            <input type="hidden" name="appointment_id" t-att-value="appointment.id"/>
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-4">
+                                    <input type="text" name="name" placeholder="Full name" class="form-control" required="required"/>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="email" name="email" placeholder="Email" class="form-control" required="required"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-salon-primary w-100">Create account</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- ============================================================
+         My appointments (logged-in portal user)
+         ============================================================ -->
+    <template id="portal_my_appointments" name="My Bookings">
+        <t t-call="salon_management.portal_salon_layout">
+            <section class="salon-hero salon-hero-compact">
+                <div class="container">
+                    <span class="salon-eyebrow">My bookings</span>
+                    <h1 class="salon-hero-title">Your appointments</h1>
+                    <p class="salon-hero-sub">
+                        <a href="/salon/book" class="btn btn-salon-primary mt-2">Book a new one</a>
+                    </p>
+                </div>
+            </section>
+            <section class="salon-section">
+                <div class="container">
+                    <t t-if="not appointments">
+                        <p>You have no bookings yet.</p>
+                    </t>
+                    <t t-else="">
+                        <table class="table salon-table">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Branch</th>
+                                    <th>Stylist</th>
+                                    <th>When</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="appointments" t-as="a">
+                                    <tr>
+                                        <td t-esc="a.name"/>
+                                        <td t-esc="a.branch_id.name"/>
+                                        <td t-esc="a.stylist_id.name"/>
+                                        <td t-esc="format_datetime(a.start_datetime)"/>
+                                        <td>
+                                            <span class="salon-badge"
+                                                  t-attf-class="salon-badge-{{ a.state }}">
+                                                <t t-esc="dict(a._fields['state'].selection).get(a.state)"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a t-att-href="'/salon/appointment/%s?access_token=%s' % (a.id, a.access_token)"
+                                               class="btn btn-sm btn-salon-outline">Manage</a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </section>
+        </t>
+    </template>
+
+</odoo>

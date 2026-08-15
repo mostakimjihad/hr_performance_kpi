@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_salon_root"
+              name="Salon"
+              web_icon="salon_management,static/description/icon.png"
+              sequence="195"/>
+
+    <menuitem id="menu_salon_appointments"
+              name="Appointments"
+              parent="menu_salon_root"
+              sequence="10"
+              groups="group_salon_manager,group_salon_stylist"/>
+
+    <menuitem id="menu_salon_calendar"
+              name="Calendar"
+              parent="menu_salon_appointments"
+              action="action_salon_appointment_calendar"
+              sequence="5"
+              groups="group_salon_manager,group_salon_stylist"/>
+
+    <menuitem id="menu_salon_chair_dashboard"
+              name="Chair Dashboard"
+              parent="menu_salon_appointments"
+              action="action_chair_dashboard"
+              sequence="7"
+              groups="group_salon_manager,group_salon_stylist"/>
+
+    <menuitem id="menu_salon_appointment_list"
+              name="All Appointments"
+              parent="menu_salon_appointments"
+              action="action_salon_appointment_list"
+              sequence="10"
+              groups="group_salon_manager,group_salon_stylist"/>
+
+    <menuitem id="menu_salon_catalog"
+              name="Catalog"
+              parent="menu_salon_root"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_branches"
+              name="Branches"
+              parent="menu_salon_catalog"
+              action="action_salon_branch"
+              sequence="10"
+              groups="group_salon_manager,group_salon_stylist"/>
+
+    <menuitem id="menu_salon_stylists"
+              name="Stylists"
+              parent="menu_salon_catalog"
+              action="action_salon_stylist"
+              sequence="20"
+              groups="group_salon_manager,group_salon_stylist"/>
+
+    <menuitem id="menu_salon_services"
+              name="Services"
+              parent="menu_salon_catalog"
+              action="action_salon_service"
+              sequence="30"
+              groups="group_salon_manager"/>
+
+    <menuitem id="menu_salon_service_categories"
+              name="Categories"
+              parent="menu_salon_catalog"
+              action="action_salon_service_category"
+              sequence="40"
+              groups="group_salon_manager"/>
+
+    <menuitem id="menu_salon_chairs"
+              name="Chairs"
+              parent="menu_salon_catalog"
+              action="action_salon_chair"
+              sequence="25"
+              groups="group_salon_manager"/>
+
+    <menuitem id="menu_salon_reporting"
+              name="Reporting"
+              parent="menu_salon_root"
+              sequence="30"
+              groups="group_salon_manager"/>
+
+    <menuitem id="menu_salon_reporting_pivot"
+              name="Pivot Analysis"
+              parent="menu_salon_reporting"
+              action="action_salon_appointment_pivot"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_reporting_graph"
+              name="Graph"
+              parent="menu_salon_reporting"
+              action="action_salon_appointment_graph"
+              sequence="20"/>
+
+</odoo>

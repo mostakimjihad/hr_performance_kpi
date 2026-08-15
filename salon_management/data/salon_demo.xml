@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <!-- ==================================================================
+         Demo Customers — a mix of portal users (linked to res.partner) and
+         guest-only customers (no partner_id). Used by demo appointments.
+         ================================================================== -->
+    <record id="partner_jane" model="res.partner">
+        <field name="name">Jane Doe</field>
+        <field name="email">jane.doe@example.com</field>
+        <field name="phone">+1 555 020 0001</field>
+    </record>
+    <record id="partner_john" model="res.partner">
+        <field name="name">John Smith</field>
+        <field name="email">john.smith@example.com</field>
+        <field name="phone">+1 555 020 0002</field>
+    </record>
+    <record id="partner_alice" model="res.partner">
+        <field name="name">Alice Martin</field>
+        <field name="email">alice.martin@example.com</field>
+        <field name="phone">+1 555 020 0003</field>
+    </record>
+    <record id="partner_bob" model="res.partner">
+        <field name="name">Bob Johnson</field>
+        <field name="email">bob.johnson@example.com</field>
+        <field name="phone">+1 555 020 0004</field>
+    </record>
+    <record id="partner_clara" model="res.partner">
+        <field name="name">Clara Davies</field>
+        <field name="email">clara.davies@example.com</field>
+        <field name="phone">+1 555 020 0005</field>
+    </record>
+
+    <!-- ==================================================================
+         Branches — both online_visible and active so they show on the portal.
+         ================================================================== -->
+    <record id="branch_downtown" model="salon.branch">
+        <field name="name">Downtown Studio</field>
+        <field name="code">DT</field>
+        <field name="phone">+1 555 010 0001</field>
+        <field name="email">downtown@example.com</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="branch_seaside" model="salon.branch">
+        <field name="name">Seaside Spa</field>
+        <field name="code">SS</field>
+        <field name="phone">+1 555 010 0002</field>
+        <field name="email">seaside@example.com</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- ==================================================================
+         Opening hours — Mon-Fri 9-19:30 with lunch 13-14, Sat 10-18,
+         Sun closed. Both branches.
+         ================================================================== -->
+    <record id="hour_dt_mon" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="dayofweek">0</field>
+        <field name="hour_from">9.0</field>
+        <field name="hour_to">19.5</field>
+        <field name="break_from">13.0</field>
+        <field name="break_to">14.0</field>
+    </record>
+    <record id="hour_dt_tue" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="dayofweek">1</field>
+        <field name="hour_from">9.0</field>
+        <field name="hour_to">19.5</field>
+        <field name="break_from">13.0</field>
+        <field name="break_to">14.0</field>
+    </record>
+    <record id="hour_dt_wed" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="dayofweek">2</field>
+        <field name="hour_from">9.0</field>
+        <field name="hour_to">19.5</field>
+        <field name="break_from">13.0</field>
+        <field name="break_to">14.0</field>
+    </record>
+    <record id="hour_dt_thu" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="dayofweek">3</field>
+        <field name="hour_from">9.0</field>
+        <field name="hour_to">19.5</field>
+        <field name="break_from">13.0</field>
+        <field name="break_to">14.0</field>
+    </record>
+    <record id="hour_dt_fri" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="dayofweek">4</field>
+        <field name="hour_from">9.0</field>
+        <field name="hour_to">20.0</field>
+    </record>
+    <record id="hour_dt_sat" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="dayofweek">5</field>
+        <field name="hour_from">10.0</field>
+        <field name="hour_to">18.0</field>
+    </record>
+    <record id="hour_ss_mon" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="dayofweek">0</field>
+        <field name="hour_from">10.0</field>
+        <field name="hour_to">20.0</field>
+    </record>
+    <record id="hour_ss_tue" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="dayofweek">1</field>
+        <field name="hour_from">10.0</field>
+        <field name="hour_to">20.0</field>
+    </record>
+    <record id="hour_ss_wed" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="dayofweek">2</field>
+        <field name="hour_from">10.0</field>
+        <field name="hour_to">20.0</field>
+    </record>
+    <record id="hour_ss_thu" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="dayofweek">3</field>
+        <field name="hour_from">10.0</field>
+        <field name="hour_to">20.0</field>
+    </record>
+    <record id="hour_ss_fri" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="dayofweek">4</field>
+        <field name="hour_from">10.0</field>
+        <field name="hour_to">21.0</field>
+    </record>
+    <record id="hour_ss_sat" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="dayofweek">5</field>
+        <field name="hour_from">9.0</field>
+        <field name="hour_to">19.0</field>
+    </record>
+    <record id="hour_ss_sun" model="salon.branch.hour">
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="dayofweek">6</field>
+        <field name="hour_from">11.0</field>
+        <field name="hour_to">17.0</field>
+    </record>
+
+    <!-- ==================================================================
+         Service categories — five categories covering the full beauty &
+         spa catalog.
+         ================================================================== -->
+    <record id="cat_hair" model="salon.service.category">
+        <field name="name">Hair</field>
+        <field name="sequence">10</field>
+        <field name="description">Cut, color, styling and treatments for every hair type.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="cat_spa" model="salon.service.category">
+        <field name="name">Spa</field>
+        <field name="sequence">20</field>
+        <field name="description">Facials, peels and skin-renewing rituals.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="cat_nails" model="salon.service.category">
+        <field name="name">Nails</field>
+        <field name="sequence">30</field>
+        <field name="description">Manicures, pedicures and nail art.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="cat_massage" model="salon.service.category">
+        <field name="name">Massage</field>
+        <field name="sequence">40</field>
+        <field name="description">Relaxation, deep-tissue and therapeutic massage.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="cat_makeup" model="salon.service.category">
+        <field name="name">Makeup</field>
+        <field name="sequence">50</field>
+        <field name="description">Bridal, event and editorial makeup.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ==================================================================
+         Services — priced in USD. Mix of short and long appointments so the
+         chair dashboard shows varied appointment lengths.
+         ================================================================== -->
+    <record id="svc_haircut" model="salon.service">
+        <field name="name">Women's Haircut</field>
+        <field name="category_id" ref="cat_hair"/>
+        <field name="duration">1.0</field>
+        <field name="list_price">55.0</field>
+        <field name="description">A precision cut, consultation, wash and finish blow-dry.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_men_cut" model="salon.service">
+        <field name="name">Men's Cut &amp; Beard</field>
+        <field name="category_id" ref="cat_hair"/>
+        <field name="duration">0.5</field>
+        <field name="list_price">35.0</field>
+        <field name="description">Classic cut with beard line-up and hot towel finish.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_color" model="salon.service">
+        <field name="name">Hair Color</field>
+        <field name="category_id" ref="cat_hair"/>
+        <field name="duration">2.0</field>
+        <field name="list_price">120.0</field>
+        <field name="description">Full-head color, gloss treatment and styling.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_blowdry" model="salon.service">
+        <field name="name">Blow-Dry &amp; Style</field>
+        <field name="category_id" ref="cat_hair"/>
+        <field name="duration">0.5</field>
+        <field name="list_price">40.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_facial" model="salon.service">
+        <field name="name">Signature Facial</field>
+        <field name="category_id" ref="cat_spa"/>
+        <field name="duration">1.5</field>
+        <field name="list_price">95.0</field>
+        <field name="description">Deep cleanse, exfoliation, mask and facial massage.</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_anti_aging" model="salon.service">
+        <field name="name">Anti-Aging Treatment</field>
+        <field name="category_id" ref="cat_spa"/>
+        <field name="duration">2.0</field>
+        <field name="list_price">160.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_manicure" model="salon.service">
+        <field name="name">Classic Manicure</field>
+        <field name="category_id" ref="cat_nails"/>
+        <field name="duration">0.75</field>
+        <field name="list_price">40.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_pedicure" model="salon.service">
+        <field name="name">Spa Pedicure</field>
+        <field name="category_id" ref="cat_nails"/>
+        <field name="duration">1.0</field>
+        <field name="list_price">55.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_massage" model="salon.service">
+        <field name="name">Relaxation Massage</field>
+        <field name="category_id" ref="cat_massage"/>
+        <field name="duration">1.0</field>
+        <field name="list_price">85.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_deep_tissue" model="salon.service">
+        <field name="name">Deep-Tissue Massage</field>
+        <field name="category_id" ref="cat_massage"/>
+        <field name="duration">1.5</field>
+        <field name="list_price">125.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_makeup" model="salon.service">
+        <field name="name">Event Makeup</field>
+        <field name="category_id" ref="cat_makeup"/>
+        <field name="duration">1.0</field>
+        <field name="list_price">70.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="svc_bride_makeup" model="salon.service">
+        <field name="name">Bridal Makeup Trial</field>
+        <field name="category_id" ref="cat_makeup"/>
+        <field name="duration">1.5</field>
+        <field name="list_price">220.0</field>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ==================================================================
+         Employees + Stylists — 4 stylists, each with a bio and services.
+         ================================================================== -->
+    <record id="emp_amelia" model="hr.employee">
+        <field name="name">Amelia Stone</field>
+        <field name="job_title">Senior Stylist</field>
+        <field name="work_email">amelia@example.com</field>
+    </record>
+    <record id="emp_lina" model="hr.employee">
+        <field name="name">Lina Park</field>
+        <field name="job_title">Color Specialist</field>
+        <field name="work_email">lina@example.com</field>
+    </record>
+    <record id="emp_marco" model="hr.employee">
+        <field name="name">Marco Reyes</field>
+        <field name="job_title">Massage Therapist</field>
+        <field name="work_email">marco@example.com</field>
+    </record>
+    <record id="emp_sara" model="hr.employee">
+        <field name="name">Sara Khan</field>
+        <field name="job_title">Nail Technician</field>
+        <field name="work_email">sara@example.com</field>
+    </record>
+
+    <record id="stylist_amelia" model="salon.stylist">
+        <field name="employee_id" ref="emp_amelia"/>
+        <field name="branch_ids" eval="[(6, 0, [ref('branch_downtown')])]"/>
+        <field name="service_ids" eval="[(6, 0, [ref('svc_haircut'), ref('svc_men_cut'), ref('svc_blowdry'), ref('svc_makeup')])]"/>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+        <field name="color">3</field>
+        <field name="bio">Amelia brings 10 years of editorial styling experience and loves a precision cut.</field>
+    </record>
+    <record id="stylist_lina" model="salon.stylist">
+        <field name="employee_id" ref="emp_lina"/>
+        <field name="branch_ids" eval="[(6, 0, [ref('branch_downtown'), ref('branch_seaside')])]"/>
+        <field name="service_ids" eval="[(6, 0, [ref('svc_color'), ref('svc_haircut'), ref('svc_anti_aging'), ref('svc_facial')])]"/>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+        <field name="color">5</field>
+        <field name="bio">Lina specializes in balayage, corrective color and skin-renewing facials.</field>
+    </record>
+    <record id="stylist_marco" model="salon.stylist">
+        <field name="employee_id" ref="emp_marco"/>
+        <field name="branch_ids" eval="[(6, 0, [ref('branch_seaside')])]"/>
+        <field name="service_ids" eval="[(6, 0, [ref('svc_massage'), ref('svc_deep_tissue'), ref('svc_facial')])]"/>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+        <field name="color">7</field>
+        <field name="bio">Marco is a licensed therapist with a holistic, results-driven approach.</field>
+    </record>
+    <record id="stylist_sara" model="salon.stylist">
+        <field name="employee_id" ref="emp_sara"/>
+        <field name="branch_ids" eval="[(6, 0, [ref('branch_downtown')])]"/>
+        <field name="service_ids" eval="[(6, 0, [ref('svc_manicure'), ref('svc_pedicure')])]"/>
+        <field name="online_visible" eval="True"/>
+        <field name="active" eval="True"/>
+        <field name="color">9</field>
+        <field name="bio">Sara crafts meticulous nail art and luxurious pedicures.</field>
+    </record>
+
+    <!-- ==================================================================
+         Chairs — two per branch, each assigned a dedicated stylist.
+         Downtown: Chair A = Amelia, Chair B = Lina
+         Seaside:  Chair A = Lina,   Chair B = Marco
+         ================================================================== -->
+    <record id="chair_dt_amelia" model="salon.chair">
+        <field name="name">Chair A</field>
+        <field name="code">DT-A</field>
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="stylist_id" ref="stylist_amelia"/>
+        <field name="color">3</field>
+        <field name="active" eval="True"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="chair_dt_lina" model="salon.chair">
+        <field name="name">Chair B</field>
+        <field name="code">DT-B</field>
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="stylist_id" ref="stylist_lina"/>
+        <field name="color">5</field>
+        <field name="active" eval="True"/>
+        <field name="sequence">20</field>
+    </record>
+    <record id="chair_dt_sara" model="salon.chair">
+        <field name="name">Chair C</field>
+        <field name="code">DT-C</field>
+        <field name="branch_id" ref="branch_downtown"/>
+        <field name="stylist_id" ref="stylist_sara"/>
+        <field name="color">9</field>
+        <field name="active" eval="True"/>
+        <field name="sequence">30</field>
+    </record>
+    <record id="chair_ss_lina" model="salon.chair">
+        <field name="name">Chair A</field>
+        <field name="code">SS-A</field>
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="stylist_id" ref="stylist_lina"/>
+        <field name="color">7</field>
+        <field name="active" eval="True"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="chair_ss_marco" model="salon.chair">
+        <field name="name">Chair B</field>
+        <field name="code">SS-B</field>
+        <field name="branch_id" ref="branch_seaside"/>
+        <field name="stylist_id" ref="stylist_marco"/>
+        <field name="color">2</field>
+        <field name="active" eval="True"/>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- ==================================================================
+         Demo Appointments — generated dynamically by Python at module load
+         so the times are always relative to "today" (no stale dates).
+         We declare them via <function> so the demo loader can compute
+         today ± hours properly across timezones.
+         ================================================================== -->
+
+    <function model="salon.appointment" name="action_create_demo_appointments" eval="[[
+        ('branch_downtown', 'chair_dt_amelia', 'stylist_amelia',
+         ref('partner_jane'), [ref('svc_haircut')], 'in_progress'),
+        ('branch_downtown', 'chair_dt_lina', 'stylist_lina',
+         ref('partner_john'), [ref('svc_color')], 'confirmed'),
+        ('branch_downtown', 'chair_dt_sara', 'stylist_sara',
+         ref('partner_alice'), [ref('svc_manicure'), ref('svc_pedicure')], 'confirmed'),
+        ('branch_seaside', 'chair_ss_lina', 'stylist_lina',
+         ref('partner_bob'), [ref('svc_facial')], 'confirmed'),
+        ('branch_seaside', 'chair_ss_marco', 'stylist_marco',
+         ref('partner_clara'), [ref('svc_massage')], 'in_progress'),
+        ('branch_downtown', 'chair_dt_amelia', 'stylist_amelia',
+         False, [ref('svc_blowdry')], 'confirmed'),
+    ]]" />
+
+</data>
+</odoo>

@@ -1,0 +1,373 @@
+/* ==========================================================================
+   Salon Management — Chair Dashboard styling
+
+   Each dashboard tile is laid out as a top-down salon chair:
+       ┌──────────┐      ← backrest (curved top, status-coloured)
+       │          │
+       │  name    │      ← chair name + status badge on the backrest
+       └──────────┘
+         ┌──────┐        ← armrest band
+         │ ░░░░ │        ← seat (status-coloured, shows live booking)
+         └──────┘
+          █ █           ← base / pedestal hint
+
+   No external assets, pure CSS — works offline and themable.
+   ========================================================================== */
+
+:root {
+    --cdb-available: #198754;
+    --cdb-available-bg: #d1f4dd;
+    --cdb-booked: #0d6efd;
+    --cdb-booked-bg: #cfe2ff;
+    --cdb-in-service: #b6873a;
+    --cdb-in-service-bg: #fde9c4;
+    --cdb-empty: #9aa0a8;
+    --cdb-empty-bg: #e9ecef;
+}
+
+.salon-chair-dashboard {
+    padding: 1.5rem 2rem;
+    background: linear-gradient(180deg, var(--salon-blush, #f8f3ee) 0%, #fff 100%);
+    min-height: 100vh;
+}
+
+/* Header ----------------------------------------------------------------- */
+.salon-cdb-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+}
+.salon-cdb-header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    margin: 0 0 0.25rem;
+    color: var(--salon-charcoal, #2d3142);
+}
+.salon-cdb-header-right {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.salon-cdb-header-right .form-select,
+.salon-cdb-header-right .form-control {
+    min-width: 180px;
+}
+
+/* Stats strip ------------------------------------------------------------ */
+.salon-cdb-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.salon-cdb-stat {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(45, 49, 66, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.salon-cdb-stat-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--salon-charcoal, #2d3142);
+    line-height: 1;
+}
+.salon-cdb-stat-label {
+    color: var(--salon-charcoal-soft, #4a4f63);
+    font-size: 0.85rem;
+}
+.salon-cdb-stat-available .salon-cdb-stat-num { color: var(--cdb-available); }
+.salon-cdb-stat-in_service .salon-cdb-stat-num { color: var(--cdb-in-service); }
+.salon-cdb-stat-booked .salon-cdb-stat-num { color: var(--cdb-booked); }
+
+/* Empty / loading -------------------------------------------------------- */
+.salon-cdb-loading,
+.salon-cdb-empty {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--salon-muted, #9aa0a8);
+}
+.salon-cdb-empty h3 {
+    margin-top: 1rem;
+    color: var(--salon-charcoal, #2d3142);
+}
+
+/* Grid ------------------------------------------------------------------- */
+.salon-cdb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem 1.25rem;
+    padding-top: 1rem;
+}
+
+/* ===================================================================== */
+/* Chair-shaped tile                                                     */
+/* ===================================================================== */
+.salon-cdb-chair {
+    --chair-color: var(--cdb-empty);
+    --chair-color-bg: var(--cdb-empty-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem 1rem;
+    border-radius: 18px;
+    transition: transform 0.18s ease;
+}
+.salon-cdb-chair:hover {
+    transform: translateY(-4px);
+}
+.salon-cdb-chair-in_service { --chair-color: var(--cdb-in-service); --chair-color-bg: var(--cdb-in-service-bg); }
+.salon-cdb-chair-booked { --chair-color: var(--cdb-booked); --chair-color-bg: var(--cdb-booked-bg); }
+.salon-cdb-chair-available { --chair-color: var(--cdb-available); --chair-color-bg: var(--cdb-available-bg); }
+
+/* Backrest: rounded top rectangle, holds the chair name */
+.salon-cdb-backrest {
+    position: relative;
+    width: 88%;
+    min-height: 110px;
+    background: linear-gradient(180deg,
+        var(--chair-color-bg) 0%,
+        var(--chair-color-bg) 60%,
+        var(--chair-color) 100%);
+    border: 2px solid var(--chair-color);
+    border-bottom: none;
+    border-radius: 28px 28px 6px 6px;
+    box-shadow:
+        inset 0 -8px 14px rgba(0, 0, 0, 0.06),
+        0 6px 18px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem 0.75rem;
+    text-align: center;
+}
+.salon-cdb-backrest::before {
+    /* subtle cushion stitch line */
+    content: "";
+    position: absolute;
+    inset: 10% 12% auto 12%;
+    height: 1px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+}
+.salon-cdb-chair-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--salon-charcoal, #2d3142);
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+}
+.salon-cdb-chair-code {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--salon-charcoal-soft, #4a4f63);
+    opacity: 0.75;
+}
+.salon-cdb-chair-status {
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--chair-color);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+.salon-cdb-chair-status .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--chair-color);
+}
+
+/* Connector between backrest and seat */
+.salon-cdb-spine {
+    width: 14px;
+    height: 6px;
+    background: linear-gradient(180deg, var(--chair-color) 0%, #888 100%);
+    border-radius: 0 0 4px 4px;
+}
+
+/* Seat: wider rounded band that holds stylist + booking info */
+.salon-cdb-seat {
+    width: 100%;
+    background: #fff;
+    border: 2px solid var(--chair-color);
+    border-top: none;
+    border-radius: 0 0 32px 32px;
+    box-shadow:
+        inset 0 12px 18px rgba(0, 0, 0, 0.04),
+        0 12px 24px rgba(0, 0, 0, 0.08);
+    padding: 0.85rem 0.85rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+.salon-cdb-seat::before {
+    /* the chair cushion line at the top of the seat */
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 8%;
+    right: 8%;
+    height: 2px;
+    background: var(--chair-color-bg);
+    border-radius: 2px;
+    opacity: 0.6;
+}
+
+/* Stylist avatar — sits on the seat */
+.salon-cdb-stylist {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.salon-cdb-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--salon-cream, #f5ebe0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 36px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.salon-cdb-avatar img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+.salon-cdb-initials {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--salon-rose-dark, #a85964);
+    font-weight: 700;
+    font-size: 1rem;
+}
+.salon-cdb-stylist-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    min-width: 0;
+}
+.salon-cdb-stylist-meta strong {
+    color: var(--salon-charcoal, #2d3142);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 130px;
+}
+.salon-cdb-stylist-meta small {
+    font-size: 0.7rem;
+    color: var(--salon-muted, #9aa0a8);
+}
+.salon-cdb-no-stylist {
+    font-size: 0.8rem;
+    color: var(--salon-muted, #9aa0a8);
+    font-style: italic;
+    padding: 0.5rem 0;
+}
+
+/* Booking details — small banner at the foot of the seat */
+.salon-cdb-current,
+.salon-cdb-next {
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.78rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    border-left: 3px solid var(--chair-color);
+    background: var(--chair-color-bg);
+}
+.salon-cdb-current strong,
+.salon-cdb-next strong {
+    color: var(--salon-charcoal, #2d3142);
+}
+.salon-cdb-current .meta,
+.salon-cdb-next .meta {
+    font-size: 0.7rem;
+    color: var(--salon-charcoal-soft, #4a4f63);
+}
+
+/* Base / pedestal hint — small legs underneath */
+.salon-cdb-base {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 14px;
+    margin-top: -4px;
+    margin-bottom: 0.25rem;
+    height: 16px;
+}
+.salon-cdb-base::before,
+.salon-cdb-base::after {
+    content: "";
+    width: 8px;
+    height: 12px;
+    background: linear-gradient(180deg, #b0b4ba 0%, #6c757d 100%);
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.salon-cdb-base {
+    /* fake the third leg in the middle via inline-block centre bar */
+    position: relative;
+}
+.salon-cdb-base span {
+    width: 4px;
+    height: 16px;
+    background: linear-gradient(180deg, #b0b4ba 0%, #6c757d 100%);
+    border-radius: 1px;
+}
+
+/* Foot action button — a small pill below the base */
+.salon-cdb-action {
+    margin-top: 0.25rem;
+    background: var(--salon-charcoal, #2d3142);
+    color: #fff;
+    border: none;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+.salon-cdb-action:hover {
+    background: var(--salon-rose, #c97b84);
+    transform: scale(1.05);
+}
+
+/* Pulse for chairs currently in service */
+@keyframes salon-cdb-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(182, 135, 58, 0.35); }
+    50%      { box-shadow: 0 0 0 12px rgba(182, 135, 58, 0); }
+}
+.salon-cdb-chair-in_service .salon-cdb-backrest {
+    animation: salon-cdb-pulse 2.2s ease-in-out infinite;
+}
+
+/* Responsive ------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .salon-cdb-header { flex-direction: column; align-items: stretch; }
+    .salon-cdb-header-right { width: 100%; }
+    .salon-cdb-header-right .form-select,
+    .salon-cdb-header-right .form-control { flex: 1 1 0; min-width: 0; }
+    .salon-cdb-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
