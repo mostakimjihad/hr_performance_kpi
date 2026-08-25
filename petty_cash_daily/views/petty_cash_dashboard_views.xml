@@ -25,13 +25,13 @@
                                 </p>
                             </div>
                             <div class="btn-group" role="group">
-                                <button name="%(petty_cash_pro.action_petty_cash_session_list)d"
+                                <button name="%(petty_cash_daily.action_petty_cash_session_list)d"
                                         type="action"
                                         class="btn btn-outline-primary">
                                     <i class="fa fa-calendar me-1" title="fa fa-calendar me-1" aria-label="fa fa-calendar me-1"/>
                                     Sessions
                                 </button>
-                                <button name="%(petty_cash_pro.action_petty_cash_transaction_list)d"
+                                <button name="%(petty_cash_daily.action_petty_cash_transaction_list)d"
                                         type="action"
                                         class="btn btn-outline-primary">
                                     <i class="fa fa-list me-1" title="fa fa-list me-1" aria-label="fa fa-list me-1"/>
@@ -188,7 +188,7 @@ net
                                             <i class="fa fa-list me-2" title="fa fa-list me-2" aria-label="fa fa-list me-2"/>
                                             Recent Transactions
                                         </strong>
-                                        <button name="%(petty_cash_pro.action_petty_cash_transaction_list)d"
+                                        <button name="%(petty_cash_daily.action_petty_cash_transaction_list)d"
                                                 type="action"
                                                 class="btn btn-sm btn-link">
                                             View all <i class="fa fa-angle-right" title="fa fa-angle-right" aria-label="fa fa-angle-right"/>
@@ -231,7 +231,7 @@ net
                                             <i class="fa fa-inbox me-2" title="Approval Queue" aria-label="Approval Queue"/>
                                             Approval Queue
                                         </strong>
-                                        <button name="%(petty_cash_pro.action_petty_cash_transaction_list)d"
+                                        <button name="%(petty_cash_daily.action_petty_cash_transaction_list)d"
                                                 type="action"
                                                 context="{'search_default_filter_pending': 1}"
                                                 class="btn btn-sm btn-link">
@@ -283,7 +283,7 @@ net
                                             <i class="fa fa-th-large me-2" title="fa fa-th-large me-2" aria-label="fa fa-th-large me-2"/>
                                             Fund Snapshots
                                         </strong>
-                                        <button name="%(petty_cash_pro.action_petty_cash_fund_list)d"
+                                        <button name="%(petty_cash_daily.action_petty_cash_fund_list)d"
                                                 type="action"
                                                 class="btn btn-sm btn-link">
                                             Manage funds <i class="fa fa-angle-right" title="fa fa-angle-right" aria-label="fa fa-angle-right"/>
@@ -299,7 +299,7 @@ net
                         <div role="status" class="alert alert-light border text-center mb-0">
                             <i class="fa fa-shield me-2 text-success" title="fa fa-shield me-2 text-success" aria-label="fa fa-shield me-2 text-success"/>
                             <span class="text-muted small">
-                                Petty Cash Pro — backed by Odoo accounting,
+                                Petty Cash Daily — backed by Odoo accounting,
                                 secured by group policies, beautifully simple.
                             </span>
                         </div>

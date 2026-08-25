@@ -365,7 +365,7 @@ class PettyCashDashboard(models.TransientModel):
             rows.append(
                 f'<div class="text-center text-muted small py-2">'
                 f'+ {len(pending_tx) - 8} more '
-                f'<a href="/web#menu_id=petty_cash_pro.action_petty_cash_transaction_list&amp;'
+                f'<a href="/web#menu_id=petty_cash_daily.action_petty_cash_transaction_list&amp;'
                 f'search_default_filter_pending=1">view all</a>'
                 f'</div>'
             )
@@ -454,7 +454,7 @@ class PettyCashDashboard(models.TransientModel):
         if not funds:
             return ('<div class="text-center text-muted small py-4">'
                     'No active funds yet — '
-                    '<a href="/web#action=petty_cash_pro.action_petty_cash_fund_list" '
+                    '<a href="/web#action=petty_cash_daily.action_petty_cash_fund_list" '
                     'class="btn-link">create one</a> to start tracking.</div>')
         items = []
         for f in funds:

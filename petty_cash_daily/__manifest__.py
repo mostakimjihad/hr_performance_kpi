@@ -1,14 +1,14 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Petty Cash Pro',
+    'name': 'Petty Cash Daily',
     'version': '19.0.1.0.0',
     'category': 'Finance/Accounting',
     'sequence': 192,
     'summary': 'Daily cash box management with a beautiful expense dashboard',
     'description': """
-Petty Cash Pro
-==============
+Petty Cash Daily
+================
 
 A daily-first petty cash management module for Odoo 19.0 with a beautiful
 real-time expense dashboard.
@@ -47,7 +47,7 @@ Back-office
 Security
 --------
 
-Three groups live under *Petty Cash Pro*:
+Three groups live under *Petty Cash Daily*:
 
 - **Petty Cash User** — view funds and own transactions; open own
   sessions; submit expenses.
@@ -69,7 +69,7 @@ Integration
 Differentiators
 ---------------
 
-Petty Cash Pro is built around the **daily** experience: opening the
+Petty Cash Daily is built around the **daily** experience: opening the
 cash drawer, recording every transaction through the day, closing the
 drawer at end-of-day and seeing the variance the moment it matters.
 The dashboard is the home screen — a single page that an office
@@ -99,7 +99,7 @@ manager opens every morning before any other view.
     ],
     'assets': {
         'web.assets_backend': [
-            'petty_cash_pro/static/src/css/petty_cash_dashboard.css',
+            'petty_cash_daily/static/src/css/petty_cash_dashboard.css',
         ],
     },
     'installable': True,

@@ -1,4 +1,4 @@
-# Petty Cash Pro
+# Petty Cash Daily
 
 A daily-first petty cash management module for Odoo 19 with a beautiful
 real-time expense dashboard.
@@ -14,11 +14,11 @@ real-time expense dashboard.
 | **Replenishments** (`petty.cash.replenishment`) | Top-up requests with manager approval |
 | **Dashboard** (`petty.cash.dashboard`) | The daily overview: today's income / expenses / net / balance / pending, 7-day cash flow, top categories, low-balance alerts |
 
-## Why Petty Cash Pro
+## Why Petty Cash Daily
 
 Most cash-management apps focus on cards (Ramp, Brex, Spendesk) but a real
 office still has a physical drawer that someone has to count at the end of the
-day. Petty Cash Pro is built around that daily experience:
+day. Petty Cash Daily is built around that daily experience:
 
 - **Open once.** A daily cron opens today's session at midnight, gives the
   cashier the opening balance, and starts recording transactions.
@@ -35,9 +35,9 @@ day. Petty Cash Pro is built around that daily experience:
 
 ## Installation
 
-1. Drop `petty_cash_pro` into your Odoo addons path.
+1. Drop `petty_cash_daily` into your Odoo addons path.
 2. Restart Odoo and update the apps list.
-3. Install **Petty Cash Pro** from the Apps menu.
+3. Install **Petty Cash Daily** from the Apps menu.
 4. (Optional) In Settings → Technical → Scheduled Actions, enable
    *Petty Cash: Open / Close Daily Sessions* to have the system auto-open
    and close sessions for you.
@@ -51,7 +51,7 @@ day. Petty Cash Pro is built around that daily experience:
 
 ## Security
 
-Three groups live under *Petty Cash Pro* in Settings → Users & Companies:
+Three groups live under *Petty Cash Daily* in Settings → Users & Companies:
 
 | Group | Permissions |
 |---|---|
