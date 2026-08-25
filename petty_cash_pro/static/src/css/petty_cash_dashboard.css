@@ -1,0 +1,45 @@
+/* Petty Cash Pro dashboard polish.
+ *
+ * The dashboard is a server-side rendered TransientModel form view, so all
+ * data viz (SVG line chart + horizontal bars) ships inside the model's
+ * computed HTML fields. This stylesheet only handles layout edge cases and
+ * subtle hover/scroll affordances.
+ */
+
+.o_petty_cash_kanban_card .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.o_petty_cash_kanban_card .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.o_petty_cash_cash_flow svg {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
+    font-family: inherit;
+}
+
+.o_petty_cash_top_categories .progress {
+    height: 10px;
+}
+
+.o_petty_cash_low_balance .progress {
+    height: 6px;
+}
+
+.o_petty_cash_recent_transactions a:hover {
+    background-color: rgba(13, 148, 136, 0.05);
+    transition: background-color 0.15s ease;
+}
+
+.o_petty_cash_fund_snapshots .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.o_petty_cash_fund_snapshots .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}

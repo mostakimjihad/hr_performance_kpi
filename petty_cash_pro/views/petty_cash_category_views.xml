@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="petty_cash_category_view_tree" model="ir.ui.view">
+            <field name="name">petty.cash.category.tree</field>
+            <field name="model">petty.cash.category</field>
+            <field name="arch" type="xml">
+                <list string="Categories">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="color" widget="color_picker"/>
+                    <field name="monthly_budget" widget="monetary"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="petty_cash_category_view_form" model="ir.ui.view">
+            <field name="name">petty.cash.category.form</field>
+            <field name="model">petty.cash.category</field>
+            <field name="arch" type="xml">
+                <form string="Category">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Category Name"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Travel"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code" placeholder="TRAVEL"/>
+                                <field name="parent_id" class="o_parent_category"/>
+                                <field name="sequence" groups="base.group_no_one"/>
+                                <field name="color" widget="color_picker"/>
+                                <field name="color_class" invisible="1"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                            <group>
+                                <field name="default_account_id"/>
+                                <field name="monthly_budget" widget="monetary"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        <field name="description" placeholder="Optional notes about the category."/>
+                        <field name="transaction_count" invisible="1"/>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="petty_cash_category_view_search" model="ir.ui.view">
+            <field name="name">petty.cash.category.search</field>
+            <field name="model">petty.cash.category</field>
+            <field name="arch" type="xml">
+                <search string="Categories">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="parent_id"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

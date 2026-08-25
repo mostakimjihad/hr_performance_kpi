@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- =====================================================
+             Petty Cash Daily Dashboard
+             A single-page overview built from a TransientModel
+             with computed SVG/HTML payloads and Bootstrap cards.
+             ===================================================== -->
+        <record id="petty_cash_dashboard_view_form" model="ir.ui.view">
+            <field name="name">petty.cash.dashboard.form</field>
+            <field name="model">petty.cash.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Daily Petty Cash Dashboard"
+                      create="false" edit="false" delete="false">
+                                            <!-- Header -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h2 class="mb-1">
+                                    <i class="fa fa-money me-2 text-primary" title="fa fa-money me-2 text-primary" aria-label="fa fa-money me-2 text-primary"/>
+                                    Petty Cash Dashboard
+                                </h2>
+                                <p class="text-muted mb-0 small">
+                                    <i class="fa fa-calendar me-1" title="fa fa-calendar me-1" aria-label="fa fa-calendar me-1"/>
+                                    Daily cash flow overview across all active funds
+                                </p>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button name="%(petty_cash_pro.action_petty_cash_session_list)d"
+                                        type="action"
+                                        class="btn btn-outline-primary">
+                                    <i class="fa fa-calendar me-1" title="fa fa-calendar me-1" aria-label="fa fa-calendar me-1"/>
+                                    Sessions
+                                </button>
+                                <button name="%(petty_cash_pro.action_petty_cash_transaction_list)d"
+                                        type="action"
+                                        class="btn btn-outline-primary">
+                                    <i class="fa fa-list me-1" title="fa fa-list me-1" aria-label="fa fa-list me-1"/>
+                                    Transactions
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ===================================================
+                             ROW 1 — Five Stat Cards
+                             =================================================== -->
+                        <div class="row mb-4">
+                            <div class="col-lg mb-3">
+                                <div class="card text-bg-success h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                            <i class="fa fa-arrow-down me-1" title="fa fa-arrow-down me-1" aria-label="fa fa-arrow-down me-1"/>
+Income
+                                        </h6>
+                                        <h2 class="card-text mb-0 fs-3 fw-bold">
+                                            <field name="today_income" nolabel="1"
+                                                   widget="monetary"
+                                                   options="{'currency_field': 'company_currency_id'}"/>
+                                        </h2>
+                                        <div class="mt-2 small opacity-75">
+                                            Money in today
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg mb-3">
+                                <div class="card text-bg-danger h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                            <i class="fa fa-arrow-up me-1" title="fa fa-arrow-up me-1" aria-label="fa fa-arrow-up me-1"/>
+Expenses
+                                        </h6>
+                                        <h2 class="card-text mb-0 fs-3 fw-bold">
+                                            <field name="today_expenses" nolabel="1"
+                                                   widget="monetary"
+                                                   options="{'currency_field': 'company_currency_id'}"/>
+                                        </h2>
+                                        <div class="mt-2 small opacity-75">
+                                            Money out today ·
+                                            <field name="today_count" nolabel="1"/> txns
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg mb-3">
+                                <div class="card text-bg-primary h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                            <i class="fa fa-balance-scale me-1" title="fa fa-balance-scale me-1" aria-label="fa fa-balance-scale me-1"/>
+Net Change
+                                        </h6>
+                                        <h2 class="card-text mb-0 fs-3 fw-bold">
+                                            <field name="today_net" nolabel="1"
+                                                   widget="monetary"
+                                                   options="{'currency_field': 'company_currency_id'}"/>
+                                        </h2>
+                                        <div class="mt-2 small opacity-75">
+                                            Today only
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg mb-3">
+                                <div class="card text-bg-warning h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                            <i class="fa fa-vault me-1" title="fa fa-vault me-1" aria-label="fa fa-vault me-1"/>
+In Drawers
+                                        </h6>
+                                        <h2 class="card-text mb-0 fs-3 fw-bold">
+                                            <field name="current_balance" nolabel="1"
+                                                   widget="monetary"
+                                                   options="{'currency_field': 'company_currency_id'}"/>
+                                        </h2>
+                                        <div class="mt-2 small opacity-75">
+                                            Across all active funds
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg mb-3">
+                                <div class="card text-bg-info h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-uppercase opacity-75 small mb-1">
+                                            <i class="fa fa-clock-o me-1" title="fa fa-clock-o me-1" aria-label="fa fa-clock-o me-1"/>
+Pending
+                                        </h6>
+                                        <h2 class="card-text mb-0 fs-3 fw-bold">
+                                            <field name="pending_approvals" nolabel="1"/>
+                                        </h2>
+                                        <div class="mt-2 small opacity-75">
+                                            Transactions awaiting approval
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===================================================
+                             ROW 2 — Cash flow chart + Top categories
+                             =================================================== -->
+                        <div class="row mb-4">
+                            <div class="col-lg-8 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <strong>
+                                            <i class="fa fa-line-chart me-2" title="fa fa-line-chart me-2" aria-label="fa fa-line-chart me-2"/>
+                                            7-Day Cash Flow
+                                        </strong>
+                                        <span class="small text-muted">
+                                            <i class="fa fa-circle text-success me-1" title="fa fa-circle text-success me-1" aria-label="fa fa-circle text-success me-1"/>
+income
+                                            <i class="fa fa-circle text-danger mx-1" title="fa fa-circle text-danger mx-1" aria-label="fa fa-circle text-danger mx-1"/>
+expenses
+                                            <i class="fa fa-circle text-secondary ms-1" title="fa fa-circle text-secondary ms-1" aria-label="fa fa-circle text-secondary ms-1"/>
+net
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="cash_flow_html" widget="html"
+                                               nolabel="1" class="o_petty_cash_cash_flow"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <strong>
+                                            <i class="fa fa-tags me-2" title="fa fa-tags me-2" aria-label="fa fa-tags me-2"/>
+                                            Top Categories This Month
+                                        </strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="top_categories_html" widget="html"
+                                               nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===================================================
+                             ROW 3 — Recent transactions + Low-balance alerts
+                             =================================================== -->
+                        <div class="row mb-4">
+                            <div class="col-lg-8 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <strong>
+                                            <i class="fa fa-list me-2" title="fa fa-list me-2" aria-label="fa fa-list me-2"/>
+                                            Recent Transactions
+                                        </strong>
+                                        <button name="%(petty_cash_pro.action_petty_cash_transaction_list)d"
+                                                type="action"
+                                                class="btn btn-sm btn-link">
+                                            View all <i class="fa fa-angle-right" title="fa fa-angle-right" aria-label="fa fa-angle-right"/>
+                                        </button>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <field name="recent_transactions_html" widget="html"
+                                               nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <strong>
+                                            <i class="fa fa-warning me-2" title="fa fa-warning me-2" aria-label="fa fa-warning me-2"/>
+                                            Low Balance Alerts
+                                        </strong>
+                                        <span class="badge text-bg-danger">
+                                            <field name="low_balance_count" nolabel="1"/>
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="low_balance_html" widget="html" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===================================================
+                             ROW 4 — Actionable widgets
+                             Approval Queue (left) · Top Custodians (middle)
+                             Monthly Budget vs Actual (right)
+                             =================================================== -->
+                        <div class="row mb-4">
+                            <div class="col-lg-5 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <strong>
+                                            <i class="fa fa-inbox me-2" title="Approval Queue" aria-label="Approval Queue"/>
+                                            Approval Queue
+                                        </strong>
+                                        <button name="%(petty_cash_pro.action_petty_cash_transaction_list)d"
+                                                type="action"
+                                                context="{'search_default_filter_pending': 1}"
+                                                class="btn btn-sm btn-link">
+                                            All pending <i class="fa fa-angle-right" title="Open" aria-label="Open"/>
+                                        </button>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <field name="approval_queue_html" widget="html" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <strong>
+                                            <i class="fa fa-trophy me-2" title="Top Custodians" aria-label="Top Custodians"/>
+                                            Top Custodians
+                                        </strong>
+                                        <small class="text-muted ms-2">this month</small>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <field name="top_custodians_html" widget="html" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <strong>
+                                            <i class="fa fa-bullseye me-2" title="Budget vs Actual" aria-label="Budget vs Actual"/>
+                                            Monthly Budget vs Actual
+                                        </strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="budget_burn_html" widget="html" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===================================================
+                             ROW 5 — Fund snapshots (cards grid)
+                             =================================================== -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <strong>
+                                            <i class="fa fa-th-large me-2" title="fa fa-th-large me-2" aria-label="fa fa-th-large me-2"/>
+                                            Fund Snapshots
+                                        </strong>
+                                        <button name="%(petty_cash_pro.action_petty_cash_fund_list)d"
+                                                type="action"
+                                                class="btn btn-sm btn-link">
+                                            Manage funds <i class="fa fa-angle-right" title="fa fa-angle-right" aria-label="fa fa-angle-right"/>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="fund_snapshots_html" widget="html" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="status" class="alert alert-light border text-center mb-0">
+                            <i class="fa fa-shield me-2 text-success" title="fa fa-shield me-2 text-success" aria-label="fa fa-shield me-2 text-success"/>
+                            <span class="text-muted small">
+                                Petty Cash Pro — backed by Odoo accounting,
+                                secured by group policies, beautifully simple.
+                            </span>
+                        </div>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

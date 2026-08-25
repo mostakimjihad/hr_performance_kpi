@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_petty_cash_session" model="ir.sequence">
+            <field name="name">Petty Cash Session</field>
+            <field name="code">petty.cash.session</field>
+            <field name="prefix">PCS/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_petty_cash_transaction_in" model="ir.sequence">
+            <field name="name">Petty Cash Transaction (Money In)</field>
+            <field name="code">petty.cash.transaction.in</field>
+            <field name="prefix">PCIN/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_petty_cash_transaction_out" model="ir.sequence">
+            <field name="name">Petty Cash Transaction (Money Out)</field>
+            <field name="code">petty.cash.transaction.out</field>
+            <field name="prefix">PCOUT/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_petty_cash_replenishment" model="ir.sequence">
+            <field name="name">Petty Cash Replenishment</field>
+            <field name="code">petty.cash.replenishment</field>
+            <field name="prefix">PCR/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

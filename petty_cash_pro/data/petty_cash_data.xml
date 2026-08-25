@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default expense categories shipped with the module so the
+             first install is never empty. -->
+        <record id="cat_travel" model="petty.cash.category">
+            <field name="name">Travel</field>
+            <field name="code">TRAVEL</field>
+            <field name="color">0</field>
+            <field name="sequence">10</field>
+            <field name="monthly_budget" eval="500.0"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="cat_meals" model="petty.cash.category">
+            <field name="name">Meals &amp; Entertainment</field>
+            <field name="code">MEALS</field>
+            <field name="color">1</field>
+            <field name="sequence">20</field>
+            <field name="monthly_budget" eval="300.0"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="cat_office_supplies" model="petty.cash.category">
+            <field name="name">Office Supplies</field>
+            <field name="code">SUPPLIES</field>
+            <field name="color">2</field>
+            <field name="sequence">30</field>
+            <field name="monthly_budget" eval="200.0"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="cat_fuel" model="petty.cash.category">
+            <field name="name">Fuel &amp; Tolls</field>
+            <field name="code">FUEL</field>
+            <field name="color">3</field>
+            <field name="sequence">40</field>
+            <field name="monthly_budget" eval="400.0"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="cat_utilities" model="petty.cash.category">
+            <field name="name">Utilities &amp; Services</field>
+            <field name="code">UTILITIES</field>
+            <field name="color">4</field>
+            <field name="sequence">50</field>
+            <field name="monthly_budget" eval="250.0"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="cat_postage" model="petty.cash.category">
+            <field name="name">Postage &amp; Courier</field>
+            <field name="code">POSTAGE</field>
+            <field name="color">5</field>
+            <field name="sequence">60</field>
+            <field name="monthly_budget" eval="100.0"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="cat_replenishment" model="petty.cash.category">
+            <field name="name">Replenishment</field>
+            <field name="code">REPLENISH</field>
+            <field name="color">6</field>
+            <field name="sequence">70</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

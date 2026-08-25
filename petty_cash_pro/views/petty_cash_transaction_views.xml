@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="petty_cash_transaction_view_tree" model="ir.ui.view">
+            <field name="name">petty.cash.transaction.tree</field>
+            <field name="model">petty.cash.transaction</field>
+            <field name="arch" type="xml">
+                <list string="Transactions"
+                      decoration-warning="state == 'submitted'"
+                      decoration-success="state == 'paid'"
+                      decoration-danger="state == 'rejected'"
+                      decoration-muted="state == 'cancelled'"
+                      sample="1">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="fund_id"/>
+                    <field name="direction" widget="badge"
+                           decoration-success="direction == 'in'"
+                           decoration-danger="direction == 'out'"/>
+                    <field name="amount" widget="monetary"
+                           decoration-success="direction == 'in'"
+                           decoration-danger="direction == 'out'"/>
+                    <field name="category_id" widget="badge"/>
+                    <field name="description"/>
+                    <field name="submitter_id" widget="many2one_avatar_employee"/>
+                    <field name="approver_id" widget="many2one_avatar_user"
+                           invisible="not approver_id"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="petty_cash_transaction_view_form" model="ir.ui.view">
+            <field name="name">petty.cash.transaction.form</field>
+            <field name="model">petty.cash.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Transaction">
+                    <header>
+                        <!-- Statusbar buttons replace static buttons to keep the form clean -->
+                        <button name="action_quick_pay" type="object" string="Quick Pay"
+                                invisible="state != 'draft'"
+                                class="btn-primary"
+                                confirm="This will submit and pay in one click. Continue?"/>
+                        <button name="action_submit" type="object" string="Submit"
+                                invisible="state != 'draft'"/>
+                        <button name="action_approve" type="object" string="Approve"
+                                invisible="state != 'submitted'"
+                                class="btn-primary"/>
+                        <button name="action_pay" type="object" string="Mark Paid"
+                                invisible="state != 'approved'"
+                                class="btn-primary"/>
+                        <button name="action_reject" type="object" string="Reject"
+                                invisible="state != 'submitted'"/>
+                        <button name="action_cancel" type="object" string="Cancel"
+                                invisible="state in ('paid','cancelled')"/>
+                        <button name="action_reset_draft" type="object" string="Reset to Draft"
+                                invisible="state not in ('rejected','cancelled')"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,submitted,approved,paid"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" readonly="1" class="oe_inline"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="date" widget="date"/>
+                                <field name="direction" widget="radio"
+                                       options="{'horizontal': true}"/>
+                                <field name="amount" widget="monetary"
+                                       class="fs-4 fw-bold"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group>
+                                <field name="fund_id"
+                                       placeholder="Pick the cash box"/>
+                                <field name="category_id"
+                                       options="{'no_create': True}"
+                                       placeholder="Pick a category"/>
+                                <field name="session_id" invisible="1"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="submitter_id"
+                                       options="{'no_create': True}"/>
+                                <field name="approval_required" widget="boolean_toggle"
+                                       invisible="1"/>
+                                <field name="approver_id"
+                                       invisible="not approver_id"
+                                       widget="many2one_avatar_user"/>
+                                <field name="paid_date"
+                                       invisible="not paid_date"/>
+                            </group>
+                            <group>
+                                <field name="account_id"
+                                       options="{'no_create': True}"/>
+                                <field name="analytic_distribution"
+                                       placeholder="Paste analytic account IDs, e.g. {'1': 100}"/>
+                                <field name="receipt_attachment_id"
+                                       widget="attachment_binary"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Description">
+                                <field name="description"
+                                       placeholder="What was this for?"
+                                       class="o_underline"/>
+                                <field name="notes"
+                                       placeholder="Optional notes"
+                                       class="oe_inline"/>
+                            </page>
+                            <page string="Receipt Preview" name="receipt"
+                                  invisible="not receipt_preview">
+                                <field name="receipt_preview" widget="image"
+                                       options="{'preview_image': 'image_1920'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="petty_cash_transaction_view_search" model="ir.ui.view">
+            <field name="name">petty.cash.transaction.search</field>
+            <field name="model">petty.cash.transaction</field>
+            <field name="arch" type="xml">
+                <search string="Transactions">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="fund_id"/>
+                    <field name="category_id"/>
+                    <field name="submitter_id"/>
+                    <field name="approver_id"/>
+                    <separator/>
+                    <filter name="filter_today" string="Today"
+                            domain="[('date', '=', context_today())]"/>
+                    <filter name="filter_week" string="This week"
+                            domain="[('date', '&gt;=', (context_today() - datetime.date.today().weekday()).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_month" string="This month"
+                            domain="[('date', '&gt;=', (context_today().replace(day=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_out" string="Money Out"
+                            domain="[('direction', '=', 'out')]"/>
+                    <filter name="filter_in" string="Money In"
+                            domain="[('direction', '=', 'in')]"/>
+                    <filter name="filter_pending" string="Awaiting Approval"
+                            domain="[('state', '=', 'submitted')]"/>
+                    <filter name="filter_paid" string="Paid"
+                            domain="[('state', '=', 'paid')]"/>
+                    <group>
+                        <filter name="group_fund" string="Cash Box" context="{'group_by': 'fund_id'}"/>
+                        <filter name="group_category" string="Category" context="{'group_by': 'category_id'}"/>
+                        <filter name="group_submitter" string="Submitter" context="{'group_by': 'submitter_id'}"/>
+                        <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                        <filter name="group_date" string="Date" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

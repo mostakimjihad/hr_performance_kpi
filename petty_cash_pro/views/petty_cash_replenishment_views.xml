@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="petty_cash_replenishment_view_tree" model="ir.ui.view">
+            <field name="name">petty.cash.replenishment.tree</field>
+            <field name="model">petty.cash.replenishment</field>
+            <field name="arch" type="xml">
+                <list string="Replenishments"
+                      decoration-warning="state == 'submitted'"
+                      decoration-success="state == 'received'"
+                      decoration-danger="state == 'rejected'"
+                      decoration-muted="state == 'cancelled'">
+                    <field name="name"/>
+                    <field name="fund_id"/>
+                    <field name="request_date"/>
+                    <field name="requested_by" widget="many2one_avatar_user"/>
+                    <field name="amount" widget="monetary"/>
+                    <field name="approved_by" widget="many2one_avatar_user"
+                           invisible="not approved_by"/>
+                    <field name="received_by" widget="many2one_avatar_user"
+                           invisible="not received_by"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="petty_cash_replenishment_view_form" model="ir.ui.view">
+            <field name="name">petty.cash.replenishment.form</field>
+            <field name="model">petty.cash.replenishment</field>
+            <field name="arch" type="xml">
+                <form string="Replenishment">
+                    <header>
+                        <button name="action_submit" type="object" string="Submit"
+                                invisible="state != 'draft'"/>
+                        <button name="action_approve" type="object" string="Approve"
+                                invisible="state != 'submitted'"
+                                class="btn-primary"/>
+                        <button name="action_reject" type="object" string="Reject"
+                                invisible="state != 'submitted'"/>
+                        <button name="action_receive" type="object" string="Mark Received"
+                                invisible="state != 'approved'"
+                                class="btn-primary"/>
+                        <button name="action_cancel" type="object" string="Cancel"
+                                invisible="state in ('received','cancelled')"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,submitted,approved,received"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" readonly="1" class="oe_inline"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="fund_id"/>
+                                <field name="amount" widget="monetary"
+                                       class="fs-4 fw-bold"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group>
+                                <field name="requested_by" widget="many2one_avatar_user"/>
+                                <field name="requested_employee_id"
+                                       widget="many2one_avatar_employee"
+                                       invisible="1"/>
+                                <field name="request_date"/>
+                                <field name="approved_by" widget="many2one_avatar_user"
+                                       invisible="not approved_by"/>
+                                <field name="approval_date" invisible="not approval_date"/>
+                                <field name="received_by" widget="many2one_avatar_user"
+                                       invisible="not received_by"/>
+                                <field name="received_date" invisible="not received_date"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Reason">
+                                <field name="reason" nolabel="1"
+                                       placeholder="Why is this top-up needed?"/>
+                            </page>
+                            <page string="Notes">
+                                <field name="notes" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="petty_cash_replenishment_view_search" model="ir.ui.view">
+            <field name="name">petty.cash.replenishment.search</field>
+            <field name="model">petty.cash.replenishment</field>
+            <field name="arch" type="xml">
+                <search string="Replenishments">
+                    <field name="name"/>
+                    <field name="fund_id"/>
+                    <field name="requested_by"/>
+                    <separator/>
+                    <filter name="filter_pending" string="Awaiting Approval"
+                            domain="[('state', '=', 'submitted')]"/>
+                    <filter name="filter_open" string="Open"
+                            domain="[('state', 'in', ('draft','submitted','approved'))]"/>
+                    <group>
+                        <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                        <filter name="group_fund" string="Cash Box" context="{'group_by': 'fund_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

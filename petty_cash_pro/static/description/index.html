@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Petty Cash Pro — Odoo 19</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; }
+        .hero { background: linear-gradient(135deg, #0d9488, #115e59); color: white; padding: 56px 32px 80px; }
+        .hero h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; }
+        .hero .lead { font-size: 1.25rem; color: #ccfbf1; max-width: 740px; }
+        .badge-row .badge { margin-right: 8px; }
+        .section { padding: 56px 0; }
+        .feature-card { border-radius: 12px; padding: 28px; height: 100%; border: 1px solid #e9ecef; }
+        .feature-card:hover { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06); transform: translateY(-2px); transition: 0.2s; }
+        .feature-icon { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; }
+        .screenshot { max-width: 100%; border: 1px solid #e9ecef; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+        .cta-section { background: #0f766e; color: white; padding: 56px 0; }
+        .cta-section a.btn { font-weight: 600; }
+        .tag-pill { display: inline-block; padding: 4px 12px; background: #ccfbf1; color: #134e4a; border-radius: 999px; font-size: 0.85rem; margin: 4px 4px 4px 0; font-weight: 600; }
+        h2.section-title { font-weight: 800; margin-bottom: 36px; }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <span class="badge bg-light text-dark p-2 mb-3">
+                        <i class="fa fa-money me-1"></i> Petty Cash · Odoo 19
+                    </span>
+                    <h1>Petty Cash Pro</h1>
+                    <p class="lead">
+                        Daily-first cash management with a beautiful expense dashboard.
+                        Open the drawer every morning, capture every transaction through the
+                        day, close at end-of-day with variance surfaced in real time.
+                    </p>
+                    <div class="badge-row mt-4">
+                        <span class="badge text-bg-light"><i class="fa fa-calendar-check me-1"></i> Daily sessions</span>
+                        <span class="badge text-bg-light"><i class="fa fa-chart-line me-1"></i> Cash-flow dashboard</span>
+                        <span class="badge text-bg-light"><i class="fa fa-shield-halved me-1"></i> Auto-approve limit</span>
+                        <span class="badge text-bg-light"><i class="fa fa-money-bill-trend-up me-1"></i> Replenishments</span>
+                    </div>
+                </div>
+                <div class="col-md-5 text-center">
+                    <img src="dashboard.png" class="img-fluid rounded shadow-lg" alt="Petty Cash Pro dashboard"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Petty Cash Pro -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Why Petty Cash Pro</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon text-bg-success bg-success-subtle text-success">
+                            <i class="fa fa-vault"></i>
+                        </div>
+                        <h4>Cash-box model</h4>
+                        <p class="text-muted mb-0">
+                            Each drawer has a custodian, an opening balance and an alert
+                            threshold. Opening the drawer in the morning, closing it at night —
+                            Petty Cash Pro treats those as first-class operations.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon text-bg-primary bg-primary-subtle text-primary">
+                            <i class="fa fa-gauge-high"></i>
+                        </div>
+                        <h4>Auto-approve at the limit</h4>
+                        <p class="text-muted mb-0">
+                            Configure a per-fund limit. Below it: instant pay. Above it:
+                            routes to a manager for approval. The cashier doesn't have to
+                            think about it.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon text-bg-warning bg-warning-subtle text-warning">
+                            <i class="fa fa-money-bill-trend-up"></i>
+                        </div>
+                        <h4>Replenishment workflow</h4>
+                        <p class="text-muted mb-0">
+                            When the balance drops below the threshold, request a top-up,
+                            manager approves, cashier confirms receipt — the cash lands back
+                            in the drawer as a paid Money-In transaction.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon text-bg-info bg-info-subtle text-info">
+                            <i class="fa fa-chart-line"></i>
+                        </div>
+                        <h4>The dashboard you'll actually open</h4>
+                        <p class="text-muted mb-0">
+                            Today's income, expenses, net change, total in drawers and pending
+                            approvals — five tiles at the top of the home page. Below:
+                            7-day cash flow, top categories, recent transactions, alerts.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon text-bg-danger bg-danger-subtle text-danger">
+                            <i class="fa fa-scale-balanced"></i>
+                        </div>
+                        <h4>Variance, not vibes</h4>
+                        <p class="text-muted mb-0">
+                            Every daily session compares expected to actual. The variance
+                            turns red or green on the form, in the tree view, and in the chatter.
+                            Managers have a clean audit trail.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon text-bg-secondary bg-secondary-subtle text-secondary">
+                            <i class="fa fa-link"></i>
+                        </div>
+                        <h4>Native to your Odoo</h4>
+                        <p class="text-muted mb-0">
+                            Built on <code>account</code>, <code>hr</code> and
+                            <code>mail</code>. Uses Odoo's privilege/group system, chatter,
+                            analytic distribution and accounting journals. No external
+                            services.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Screenshots</h2>
+            <div class="row g-4">
+                <div class="col-md-12">
+                    <h5 class="text-muted">Daily Dashboard</h5>
+                    <img src="dashboard.png" class="screenshot w-100" alt="Daily Dashboard screenshot"/>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-muted">Cash Boxes — Kanban</h5>
+                    <img src="cash_boxes.png" class="screenshot w-100" alt="Cash Boxes Kanban"/>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-muted">Transaction Form</h5>
+                    <img src="transaction_form.png" class="screenshot w-100" alt="Transaction Form"/>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-muted">Daily Session Reconciliation</h5>
+                    <img src="daily_session.png" class="screenshot w-100" alt="Daily Session screenshot"/>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-muted">Replenishment Workflow</h5>
+                    <img src="replenishment.png" class="screenshot w-100" alt="Replenishment screenshot"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User roles -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Built for how your office actually uses Odoo</h2>
+            <p class="text-muted">Three preconfigured groups keep permissions simple:</p>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fa fa-user fa-2x text-success"></i>
+                        <h5 class="mt-3">Petty Cash User</h5>
+                        <p class="text-muted small">
+                            Day-to-day: opens sessions, submits expenses, requests
+                            replenishments. Can see transactions in their scope.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fa fa-user-tie fa-2x text-primary"></i>
+                        <h5 class="mt-3">Petty Cash Manager</h5>
+                        <p class="text-muted small">
+                            Approves transactions, closes sessions, configures funds and
+                            categories. Full access.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fa fa-magnifying-glass fa-2x text-secondary"></i>
+                        <h5 class="mt-3">Petty Cash Auditor</h5>
+                        <p class="text-muted small">
+                            Read-only across all funds. Perfect for finance controllers and
+                            external auditors reviewing the record.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tag cloud of features -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Features at a glance</h2>
+            <div>
+                <span class="tag-pill">Daily sessions</span>
+                <span class="tag-pill">Cash-box float tracking</span>
+                <span class="tag-pill">Auto-approve limit</span>
+                <span class="tag-pill">Manager approval</span>
+                <span class="tag-pill">Variance reconciliation</span>
+                <span class="tag-pill">Replenishment workflow</span>
+                <span class="tag-pill">Expense categories</span>
+                <span class="tag-pill">Monthly budgets</span>
+                <span class="tag-pill">Receipt attachments</span>
+                <span class="tag-pill">Analytic distribution</span>
+                <span class="tag-pill">Default expense accounts</span>
+                <span class="tag-pill">Multi-currency</span>
+                <span class="tag-pill">Multi-company</span>
+                <span class="tag-pill">Chatter tracking</span>
+                <span class="tag-pill">Activity tracking</span>
+                <span class="tag-pill">Daily cron</span>
+                <span class="tag-pill">Low-balance alerts</span>
+                <span class="tag-pill">Cash-flow chart</span>
+                <span class="tag-pill">Top categories</span>
+                <span class="tag-pill">Quick Pay</span>
+                <span class="tag-pill">Quick Submit</span>
+                <span class="tag-pill">Calendar view</span>
+                <span class="tag-pill">Pivot &amp; graph reports</span>
+                <span class="tag-pill">i18n-ready</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2>Get Petty Cash Pro on the Odoo Apps Store</h2>
+            <p class="lead mb-4">Built for Odoo 19 · LGPL-3 · install in two clicks</p>
+            <a href="https://apps.odoo.com/apps/modules/19.0/petty_cash_pro"
+               class="btn btn-light btn-lg">
+                <i class="fa fa-download me-2"></i> Install Now
+            </a>
+        </div>
+    </section>
+
+</body>
+</html>

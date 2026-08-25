@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- List -->
+        <record id="petty_cash_fund_view_tree" model="ir.ui.view">
+            <field name="name">petty.cash.fund.list</field>
+            <field name="model">petty.cash.fund</field>
+            <field name="arch" type="xml">
+                <list string="Cash Boxes" decoration-muted="state in ('closed','suspended')">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="custodian_id" widget="many2one_avatar_employee"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="opening_balance" widget="monetary"/>
+                    <field name="current_balance" widget="monetary"
+                           decoration-danger="current_balance &lt; alert_threshold"/>
+                    <field name="alert_threshold" widget="monetary"/>
+                    <field name="transaction_limit" widget="monetary"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'active'"
+                           decoration-warning="state == 'suspended'"
+                           decoration-muted="state == 'closed'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Kanban -->
+        <record id="petty_cash_fund_view_kanban" model="ir.ui.view">
+            <field name="name">petty.cash.fund.kanban</field>
+            <field name="model">petty.cash.fund</field>
+            <field name="arch" type="xml">
+                <kanban string="Cash Boxes" class="o_kanban_dashboard"
+                        sample="1" can_create="true" can_edit="true" can_delete="false">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="color_class"/>
+                    <field name="custodian_id"/>
+                    <field name="current_balance"/>
+                    <field name="opening_balance"/>
+                    <field name="alert_threshold"/>
+                    <field name="state"/>
+                    <field name="transaction_count"/>
+                    <field name="session_count"/>
+                    <field name="pending_approval_count"/>
+                    <templates>
+                        <t t-name="card" class="px-0">
+                            <div class="o_petty_cash_kanban_card">
+                                <div t-attf-class="card h-100 border-2 border-{{record.color_class.raw_value}}">
+                                    <div class="card-header d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="mb-0 fw-bold">
+                                                <t t-esc="record.code.raw_value"/>
+                                            </h5>
+                                            <small class="text-muted">
+                                                <t t-esc="record.name.raw_value"/>
+                                            </small>
+                                        </div>
+                                        <span class="badge text-bg-light">
+                                            <field name="state" widget="badge"/>
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            <small class="text-muted d-block">Custodian</small>
+                                            <field name="custodian_id" widget="many2one_avatar_employee"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Current Balance</small>
+                                            <h3 class="mb-0 fw-bold text-primary">
+                                                <field name="current_balance" widget="monetary"/>
+                                                <t t-set="low"
+                                                   t-value="record.current_balance.raw_value &lt; record.alert_threshold.raw_value"/>
+                                            </h3>
+                                            <small t-if="low" class="badge text-bg-danger">
+                                                <i class="fa fa-warning me-1" title="Warning" aria-label="Warning"/>
+                                                Below alert threshold
+                                            </small>
+                                        </div>
+                                        <div class="d-flex justify-content-between small text-muted">
+                                            <div>
+                                                <i class="fa fa-exchange me-1" title="Transactions" aria-label="Transactions"/>
+                                                <field name="transaction_count"/>
+                                                <span> transactions</span>
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-calendar me-1" title="Sessions" aria-label="Sessions"/>
+                                                <field name="session_count"/>
+                                                <span> sessions</span>
+                                            </div>
+                                            <div>
+                                                <span t-if="record.pending_approval_count.raw_value &gt; 0"
+                                                      class="badge text-bg-warning">
+                                                    <i class="fa fa-clock-o me-1" title="Pending" aria-label="Pending"/>
+                                                    <field name="pending_approval_count"/>
+                                                    <span> pending</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="petty_cash_fund_view_search" model="ir.ui.view">
+            <field name="name">petty.cash.fund.search</field>
+            <field name="model">petty.cash.fund</field>
+            <field name="arch" type="xml">
+                <search string="Cash Boxes">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="custodian_id"/>
+                    <field name="department_id"/>
+                    <filter name="filter_active" string="Active" domain="[('state', '=', 'active')]"/>
+                    <filter name="filter_suspended" string="Suspended" domain="[('state', '=', 'suspended')]"/>
+                    <filter name="filter_closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                    <filter name="filter_low_balance" string="Low Balance"
+                            domain="[('current_balance', '&lt;', 0)]"/>
+                    <group>
+                        <filter name="group_custodian" string="Custodian"
+                                context="{'group_by': 'custodian_id'}"/>
+                        <filter name="group_department" string="Department"
+                                context="{'group_by': 'department_id'}"/>
+                        <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="petty_cash_fund_view_form" model="ir.ui.view">
+            <field name="name">petty.cash.fund.form</field>
+            <field name="model">petty.cash.fund</field>
+            <field name="arch" type="xml">
+                <form string="Cash Box">
+                    <header>
+                        <button name="action_open_session" type="object"
+                                string="Open Today's Session"
+                                class="btn-primary"
+                                invisible="state != 'active'"/>
+                        <button name="action_suspend" type="object"
+                                string="Suspend"
+                                invisible="state != 'active'"
+                                confirm="Suspend this cash box? New transactions will be blocked."/>
+                        <button name="action_reactivate" type="object"
+                                string="Reactivate"
+                                invisible="state != 'suspended'"/>
+                        <button name="action_close" type="object"
+                                string="Close"
+                                invisible="state == 'closed'"
+                                confirm="Close this cash box? This is permanent."/>
+                        <button name="action_request_replenishment" type="object"
+                                string="Request Replenishment"
+                                class="btn-secondary"
+                                invisible="state != 'active'"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="active,suspended,closed"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Cash Box Name"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Front Desk Drawer"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="sequence" groups="base.group_no_one"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="branch_name" placeholder="e.g. Reception — Floor 2"/>
+                            </group>
+
+                            <group>
+                                <field name="custodian_id"
+                                       placeholder="Person who holds the cash drawer"/>
+                                <field name="department_id"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="opening_balance" widget="monetary"
+                                       help="Initial cash placed in the drawer."/>
+                                <field name="current_balance" widget="monetary"
+                                       decoration-danger="current_balance &lt; alert_threshold"
+                                       decoration-success="current_balance &gt;= alert_threshold"/>
+                                <field name="alert_threshold" widget="monetary"/>
+                                <field name="monthly_budget" widget="monetary"/>
+                                <field name="transaction_limit" widget="monetary"
+                                       help="Auto-approve cap; transactions above need manager approval."/>
+                            </group>
+
+                            <group>
+                                <field name="auto_open_daily_session"
+                                       widget="boolean_toggle"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Transactions" name="transactions">
+                                <field name="transaction_ids"
+                                       readonly="1"
+                                       nolabel="1"
+                                       mode="list"
+                                       default_order="date desc, id desc">
+                                    <list decoration-warning="state == 'submitted'"
+                                          decoration-success="state == 'paid'"
+                                          decoration-danger="state == 'rejected'"
+                                          decoration-muted="state == 'cancelled'"
+                                          string="Recent transactions"
+                                          limit="20">
+                                        <field name="date" optional="show"/>
+                                        <field name="name" string="Reference" optional="show"/>
+                                        <field name="direction" widget="badge"
+                                               decoration-success="direction == 'in'"
+                                               decoration-danger="direction == 'out'"
+                                               optional="show"/>
+                                        <field name="amount" widget="monetary" optional="show"/>
+                                        <field name="category_id" optional="show"/>
+                                        <field name="description" optional="hide"/>
+                                        <field name="state" widget="badge" optional="show"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <page string="Daily Sessions" name="sessions">
+                                <field name="session_ids"
+                                       readonly="1"
+                                       nolabel="1"
+                                       mode="list"
+                                       default_order="date desc, id desc">
+                                    <list decoration-success="state == 'closed'"
+                                          decoration-warning="state == 'closing'"
+                                          decoration-danger="state == 'disputed'"
+                                          string="Reconciliation history"
+                                          limit="20">
+                                        <field name="date" optional="show"/>
+                                        <field name="name" string="Reference" optional="show"/>
+                                        <field name="opening_balance" widget="monetary" optional="show"/>
+                                        <field name="paid_in" widget="monetary" optional="show"/>
+                                        <field name="paid_out" widget="monetary" optional="show"/>
+                                        <field name="expected_balance" widget="monetary" optional="show"/>
+                                        <field name="actual_balance" widget="monetary" optional="show"/>
+                                        <field name="variance" widget="monetary"
+                                               decoration-danger="variance &lt; 0"
+                                               decoration-success="variance &gt; 0"
+                                               optional="show"/>
+                                        <field name="state" widget="badge" optional="show"/>
+                                        <field name="opened_at" optional="hide"/>
+                                        <field name="closed_at" optional="hide"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <page string="Replenishments" name="replenishments">
+                                <field name="replenishment_ids"
+                                       readonly="1"
+                                       nolabel="1"
+                                       mode="list">
+                                    <list decoration-info="state == 'submitted'"
+                                          decoration-success="state == 'received'"
+                                          decoration-danger="state == 'rejected'"
+                                          string="Replenishments"
+                                          limit="20">
+                                        <field name="name" string="Reference" optional="show"/>
+                                        <field name="request_date" optional="show"/>
+                                        <field name="amount" widget="monetary" optional="show"/>
+                                        <field name="state" widget="badge" optional="show"/>
+                                        <field name="requested_by" widget="many2one_avatar_user" optional="hide"/>
+                                        <field name="approved_by" widget="many2one_avatar_user" optional="hide"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

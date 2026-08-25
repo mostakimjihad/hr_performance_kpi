@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ==================== ACTIONS ==================== -->
+
+        <!-- Dashboard -->
+        <record id="action_petty_cash_dashboard" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">petty.cash.dashboard</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+        <!-- Funds -->
+        <record id="action_petty_cash_fund_list" model="ir.actions.act_window">
+            <field name="name">Cash Boxes</field>
+            <field name="res_model">petty.cash.fund</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="context">{'search_default_filter_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first cash box
+                </p>
+                <p>
+                    A cash box is the physical drawer a custodian manages — usually one per location.
+                    Set an opening balance, an alert threshold and an auto-approve limit.
+                </p>
+            </field>
+        </record>
+
+        <!-- Categories -->
+        <record id="action_petty_cash_category_list" model="ir.actions.act_window">
+            <field name="name">Categories</field>
+            <field name="res_model">petty.cash.category</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Transactions -->
+        <record id="action_petty_cash_transaction_list" model="ir.actions.act_window">
+            <field name="name">Transactions</field>
+            <field name="res_model">petty.cash.transaction</field>
+            <field name="view_mode">list,form,pivot,graph</field>
+            <field name="search_view_id" ref="petty_cash_transaction_view_search"/>
+            <field name="context">{'search_default_filter_today': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No transactions yet
+                </p>
+                <p>
+                    Record every receipt and disbursement here. Money under the auto-approve cap
+                    is paid instantly; over the cap, a manager must approve.
+                </p>
+            </field>
+        </record>
+
+        <!-- Sessions -->
+        <record id="action_petty_cash_session_list" model="ir.actions.act_window">
+            <field name="name">Daily Sessions</field>
+            <field name="res_model">petty.cash.session</field>
+            <field name="view_mode">list,form,calendar</field>
+            <field name="search_view_id" ref="petty_cash_session_view_search"/>
+            <field name="context">{'search_default_filter_today': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Today's sessions will appear here
+                </p>
+                <p>
+                    One session per cash box per day. Open at the start of business,
+                    close at the end with the actual cash count to reconcile variance.
+                </p>
+            </field>
+        </record>
+
+        <!-- Replenishments -->
+        <record id="action_petty_cash_replenishment_list" model="ir.actions.act_window">
+            <field name="name">Replenishments</field>
+            <field name="res_model">petty.cash.replenishment</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="petty_cash_replenishment_view_search"/>
+            <field name="context">{'search_default_filter_open': 1}</field>
+        </record>
+
+        <!-- ==================== MENUS ==================== -->
+
+        <!-- Top-level menu -->
+        <menuitem id="menu_petty_cash_root"
+                  name="Petty Cash"
+                  web_icon="petty_cash_pro,static/description/icon.svg"
+                  sequence="80"
+                  groups="petty_cash_pro.group_petty_cash_user"/>
+
+        <!-- Dashboard first -->
+        <menuitem id="menu_petty_cash_dashboard"
+                  name="Dashboard"
+                  action="action_petty_cash_dashboard"
+                  parent="menu_petty_cash_root"
+                  sequence="5"
+                  groups="petty_cash_pro.group_petty_cash_user"/>
+
+        <!-- Cash boxes -->
+        <menuitem id="menu_petty_cash_funds"
+                  name="Cash Boxes"
+                  action="action_petty_cash_fund_list"
+                  parent="menu_petty_cash_root"
+                  sequence="10"
+                  groups="petty_cash_pro.group_petty_cash_user"/>
+
+        <!-- Transactions -->
+        <menuitem id="menu_petty_cash_transactions"
+                  name="Transactions"
+                  action="action_petty_cash_transaction_list"
+                  parent="menu_petty_cash_root"
+                  sequence="15"
+                  groups="petty_cash_pro.group_petty_cash_user"/>
+
+        <!-- Sessions -->
+        <menuitem id="menu_petty_cash_sessions"
+                  name="Daily Sessions"
+                  action="action_petty_cash_session_list"
+                  parent="menu_petty_cash_root"
+                  sequence="20"
+                  groups="petty_cash_pro.group_petty_cash_user"/>
+
+        <!-- Replenishments -->
+        <menuitem id="menu_petty_cash_replenishments"
+                  name="Replenishments"
+                  action="action_petty_cash_replenishment_list"
+                  parent="menu_petty_cash_root"
+                  sequence="25"
+                  groups="petty_cash_pro.group_petty_cash_user"/>
+
+        <!-- Configuration -->
+        <menuitem id="menu_petty_cash_configuration"
+                  name="Configuration"
+                  parent="menu_petty_cash_root"
+                  sequence="100"
+                  groups="petty_cash_pro.group_petty_cash_manager"/>
+
+        <menuitem id="menu_petty_cash_categories"
+                  name="Categories"
+                  action="action_petty_cash_category_list"
+                  parent="menu_petty_cash_configuration"
+                  sequence="10"
+                  groups="petty_cash_pro.group_petty_cash_manager"/>
+    </data>
+</odoo>
