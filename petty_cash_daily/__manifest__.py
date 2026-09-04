@@ -105,6 +105,6 @@ manager opens every morning before any other view.
     'installable': True,
     'application': True,
     'author': 'Mostakim Jihad',
+    'images': ['static/description/banner.png'],
     'license': 'LGPL-3',
-    'images': ['static/description/banner.svg'],
 }
